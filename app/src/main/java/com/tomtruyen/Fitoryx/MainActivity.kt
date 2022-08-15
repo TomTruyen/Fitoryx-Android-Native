@@ -7,29 +7,30 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.tomtruyen.Fitoryx.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivityMainBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        findNavController(R.id.nav_host).let { controller ->
+            val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
-        val navView: BottomNavigationView = binding.navView
+            navView.setupWithNavController(controller)
 
-        val navController = findNavController(R.id.nav_host_fragment_activity_main)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications
+            // Handles the appBar title
+            setupActionBarWithNavController(
+                controller,
+                AppBarConfiguration(
+                    setOf(
+                        R.id.navigation_profile,
+                        R.id.navigation_nutrition,
+                        R.id.navigation_workout,
+                        R.id.navigation_exercise,
+                        R.id.navigation_settings
+                    )
+                )
             )
-        )
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
+        }
     }
 }
