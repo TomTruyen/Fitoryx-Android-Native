@@ -12,7 +12,8 @@
         android:textColor="@color/black"
         android:text="A"
         android:paddingHorizontal="16dp"
-        android:paddingVertical="8dp" />
+        android:paddingTop="16dp"
+        android:paddingBottom="8dp" />
 
     <include layout="@layout/exercise_list_item" />
 
