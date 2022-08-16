@@ -3,11 +3,9 @@ package com.tomtruyen.Fitoryx.ui.exercise
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.tomtruyen.Fitoryx.model.Exercise
+import com.tomtruyen.Fitoryx.data.exercises as defaultExercises
 
 class ExerciseViewModel : ViewModel() {
-
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is exercise Fragment"
-    }
-    val text: LiveData<String> = _text
+    val exercises = defaultExercises
 }

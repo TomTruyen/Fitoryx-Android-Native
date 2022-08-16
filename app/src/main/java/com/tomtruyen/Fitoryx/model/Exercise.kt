@@ -14,4 +14,9 @@ class Exercise(
             name
         }
     }
+    fun getSubtitle(): String {
+        return category.ifEmpty {
+            ""
+        }
+    }
 }

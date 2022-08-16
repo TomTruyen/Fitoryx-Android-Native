@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
 import com.tomtruyen.Fitoryx.R
 import org.koin.android.ext.android.inject
 
@@ -23,8 +24,7 @@ class ExerciseFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.text.observe(viewLifecycleOwner) {
-            view.findViewById<TextView>(R.id.text_exercise).text = it
-        }
+        val recyclerView = view.findViewById<RecyclerView>(R.id.exercise_recyler_view)
+        recyclerView.adapter = ExerciseAdapter(viewModel.exercises)
     }
 }
