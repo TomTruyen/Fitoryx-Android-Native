@@ -47,7 +47,6 @@ class ExerciseAdapter(var exercises: List<Exercise>): RecyclerView.Adapter<Exerc
         holder.subtitleTextView.text = exercise.getSubtitle()
 
         if(holder is DividerViewHolder) {
-            println("List Divider: ${exercise.getTitle()}")
             holder.dividerTitleTextView.text = exercise.name.first().toString().uppercase()
         }
     }
