@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.FitoryxNative" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="Theme.FitoryxNative" parent="Theme.MaterialComponents.Light">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/blue_700</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -15,7 +15,7 @@
         <item name="actionBarStyle">@style/ActionBar</item>
     </style>
 
-    <style name="ActionBar" parent="@style/Widget.AppCompat.Light.ActionBar">
+    <style name="ActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
         <item name="android:background">@color/design_default_color_background</item>
         <item name="background">@color/design_default_color_background</item>
         <item name="android:titleTextStyle">@style/ActionBar.TitleTextStyle</item>
@@ -25,5 +25,4 @@
     <style name="ActionBar.TitleTextStyle" parent="@style/TextAppearance.AppCompat.Title">
         <item name="android:textColor">@color/black</item>
     </style>
-
 </resources>
