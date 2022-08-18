@@ -56,6 +56,11 @@ class ExerciseViewModel : ViewModel() {
             return@categoryFilter filterCategories.value!!.contains(it.category)
         }.filter equipmentFilter@ {
             if(filterEquipment.value.isNullOrEmpty()) return@equipmentFilter true
+
+            if(it.equipment.isEmpty() && filterEquipment.value!!.contains("Bodyweight")) {
+                return@equipmentFilter true
+            }
+
             return@equipmentFilter filterEquipment.value!!.contains(it.equipment)
         }
 
