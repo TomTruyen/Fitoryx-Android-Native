@@ -1,5 +1,6 @@
 package com.tomtruyen.Fitoryx.ui.exercise
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,12 @@ const val TYPE_DIVIDER = 0
 const val TYPE_EXERCISE = 1
 
 class ExerciseAdapter(var exercises: List<Exercise>): RecyclerView.Adapter<ExerciseAdapter.BaseViewHolder>() {
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateExercises(exercises: List<Exercise>) {
+        this.exercises = exercises
+        notifyDataSetChanged()
+    }
+
     open inner class BaseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val titleTextView: TextView
         val subtitleTextView: TextView

@@ -22,17 +22,7 @@ import org.koin.android.ext.android.inject
 
 class ExerciseFragment : Fragment() {
     val viewModel: ExerciseViewModel by inject()
-    private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                Toast.makeText(context, "Filter exercise result!", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
+    private lateinit var adapter: ExerciseAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,7 +36,13 @@ class ExerciseFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setActions()
+
+        adapter = ExerciseAdapter(viewModel.exercises.value!!)
         setRecyclerView(view)
+
+        viewModel.exercises.observe(viewLifecycleOwner) {
+            adapter.updateExercises(it)
+        }
 
         view.findViewById<FloatingActionButton>(R.id.add_exercise_fab).setOnClickListener {
             Toast.makeText(context, "Add exercise click!", Toast.LENGTH_SHORT).show()
@@ -64,7 +60,6 @@ class ExerciseFragment : Fragment() {
                 return when(menuItem.itemId) {
                     R.id.action_filter -> {
                         openFilterActivity()
-                        Toast.makeText(context, "Filter exercise click!", Toast.LENGTH_SHORT).show()
                         true
                     }
                     R.id.action_search -> {
@@ -78,10 +73,9 @@ class ExerciseFragment : Fragment() {
     }
 
     private fun setRecyclerView(view: View) {
-        val recyclerView = view.findViewById<RecyclerView>(R.id.exercise_recyler_view)
-        recyclerView.apply {
+        view.findViewById<RecyclerView>(R.id.exercise_recyler_view).apply {
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-            adapter = ExerciseAdapter(viewModel.exercises)
+            adapter = this@ExerciseFragment.adapter
             edgeEffectFactory = BounceEdgeEffectFactory()
         }
     }
@@ -89,6 +83,10 @@ class ExerciseFragment : Fragment() {
     private fun openFilterActivity() {
         val intent = Intent(context, ExerciseFilterActivity::class.java)
 
-        activityResultLauncher.launch(intent)
+        intent.putExtra(ExerciseFilterActivity.ARG_COUNT, viewModel.getExerciseCount())
+        intent.putStringArrayListExtra(ExerciseFilterActivity.ARG_FILTER_CATEGORIES, ArrayList(viewModel.getCategoryFilters()))
+        intent.putStringArrayListExtra(ExerciseFilterActivity.ARG_FILTER_EQUIPMENTS, ArrayList(viewModel.getEquipmentFilters()))
+
+        startActivity(intent)
     }
 }

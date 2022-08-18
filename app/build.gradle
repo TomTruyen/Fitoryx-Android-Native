@@ -50,4 +50,7 @@ dependencies {
 
     // Dependency Injection
     implementation "io.insert-koin:koin-android:3.2.0"
+
+    // RxKotlin
+    implementation "io.reactivex.rxjava3:rxkotlin:3.0.1"
 }
