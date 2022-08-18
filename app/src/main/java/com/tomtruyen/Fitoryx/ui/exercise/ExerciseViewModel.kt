@@ -91,10 +91,10 @@ class ExerciseViewModel : ViewModel() {
     override fun onCleared() {
         super.onCleared()
 
-        if(!addCategoryObserver.isDisposed) addCategoryObserver.dispose()
-        if(!removeCategoryObserver.isDisposed) removeCategoryObserver.dispose()
-        if(!addEquipmentObserver.isDisposed) addEquipmentObserver.dispose()
-        if(!removeEquipmentObserver.isDisposed) removeEquipmentObserver.dispose()
-        if(!clearFilterObserver.isDisposed) clearFilterObserver.dispose()
+        addCategoryObserver.dispose()
+        removeCategoryObserver.dispose()
+        addEquipmentObserver.dispose()
+        removeEquipmentObserver.dispose()
+        clearFilterObserver.dispose()
     }
 }
