@@ -3,10 +3,11 @@
     <string name="title_workout">Workouts</string>
     <string name="title_exercise">Exercises</string>
     <string name="title_nutrition">Nutrition</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_settings">Settings</string>
     <string name="title_profile">Profile</string>
     <string name="filter">Filter</string>
     <string name="search">Search</string>
+    <string name="category">Category</string>
+    <string name="equipment">Equipment</string>
+    <string name="clear_filters">Clear filters</string>
 </resources>

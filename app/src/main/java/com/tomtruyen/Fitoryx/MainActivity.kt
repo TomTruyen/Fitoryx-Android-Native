@@ -46,8 +46,6 @@ class MainActivity : AppCompatActivity() {
         var previousStatus: ConnectivityObserver.Status = ConnectivityObserver.Status.Connected
         val container = findViewById<CoordinatorLayout>(R.id.container)
         ConnectivityObserver(this).observe().onEach { status ->
-            println("Status $status")
-
             when(status) {
                 ConnectivityObserver.Status.Connected -> {
                     if(previousStatus != ConnectivityObserver.Status.Connected) {

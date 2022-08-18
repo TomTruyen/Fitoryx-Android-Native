@@ -3,11 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Tom/Desktop/GitHub/Personal/Fitoryx-Android-Native/app/src/main/res/drawable/chip_background_color_state.xml" value="0.1925" />
+        <entry key="..\:/Users/Tom/Desktop/GitHub/Personal/Fitoryx-Android-Native/app/src/main/res/drawable/chip_text_color_state.xml" value="0.1925" />
         <entry key="..\:/Users/Tom/Desktop/GitHub/Personal/Fitoryx-Android-Native/app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.307" />
         <entry key="..\:/Users/Tom/Desktop/GitHub/Personal/Fitoryx-Android-Native/app/src/main/res/drawable/ic_exercise.xml" value="0.2" />
         <entry key="..\:/Users/Tom/Desktop/GitHub/Personal/Fitoryx-Android-Native/app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.307" />
         <entry key="..\:/Users/Tom/Desktop/GitHub/Personal/Fitoryx-Android-Native/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2315" />
         <entry key="..\:/Users/Tom/Desktop/GitHub/Personal/Fitoryx-Android-Native/app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.307" />
+        <entry key="..\:/Users/Tom/Desktop/GitHub/Personal/Fitoryx-Android-Native/app/src/main/res/drawable/rounded_button.xml" value="0.126" />
+        <entry key="..\:/Users/Tom/Desktop/GitHub/Personal/Fitoryx-Android-Native/app/src/main/res/layout/activity_exercise_filter.xml" value="0.3489583333333333" />
         <entry key="..\:/Users/Tom/Desktop/GitHub/Personal/Fitoryx-Android-Native/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/Tom/Desktop/GitHub/Personal/Fitoryx-Android-Native/app/src/main/res/layout/divider_exercise_list_item.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/Tom/Desktop/GitHub/Personal/Fitoryx-Android-Native/app/src/main/res/layout/exercise_list_divider.xml" value="0.16" />

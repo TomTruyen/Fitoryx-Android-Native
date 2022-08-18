@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="categories">
+        <item>Back</item>
+        <item>Biceps</item>
+        <item>Calves</item>
+        <item>Cardio</item>
+        <item>Chest</item>
+        <item>Core</item>
+        <item>Forearms</item>
+        <item>Full Body</item>
+        <item>Glutes</item>
+        <item>Legs</item>
+        <item>Olympic</item>
+        <item>Other</item>
+        <item>Shoulders</item>
+        <item>Triceps</item>
+    </string-array>
+
+    <string-array name="equipment">
+        <item>Band</item>
+        <item>Barbell</item>
+        <item>Bodyweight</item>
+        <item>Cable</item>
+        <item>Dumbbell</item>
+        <item>EZ Bar</item>
+        <item>Kettlebell</item>
+        <item>Machine</item>
+        <item>Other</item>
+    </string-array>
+</resources>

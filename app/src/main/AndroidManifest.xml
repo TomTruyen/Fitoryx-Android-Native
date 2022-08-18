@@ -4,6 +4,7 @@
     package="com.tomtruyen.Fitoryx">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -16,8 +17,13 @@
         android:theme="@style/Theme.FitoryxNative"
         tools:targetApi="31">
         <activity
+            android:name=".ui.exercise.filter.ExerciseFilterActivity"
+            android:parentActivityName=".MainActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true"
+            android:launchMode="singleTop"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
