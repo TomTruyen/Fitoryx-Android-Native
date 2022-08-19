@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="16dp"
+    tools:context=".ui.authentication.LoginFragment">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/welcome_back"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="32sp"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/sign_in_to_continue_to_fitoryx"
+        android:textSize="16sp"
+        />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="8dp"
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/email_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionNext"
+            android:hint="@string/email"
+            android:singleLine="true"
+            android:padding="@dimen/text_input_edit_text_with_hint_padding"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="8dp"
+        >
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/password_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:imeOptions="actionNext"
+        android:hint="@string/password"
+        android:singleLine="true"
+        android:padding="@dimen/text_input_edit_text_with_hint_padding"
+        />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/login_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="8dp"
+        android:text="@string/sign_in"
+        />
+
+    <TextView
+        android:id="@+id/register_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/need_an_account"
+        android:textColor="@color/blue_200"
+        android:layout_marginVertical="8dp"
+        />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/google_sign_in_button"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:insetLeft="0dp"
+        android:insetBottom="0dp"
+        android:insetRight="0dp"
+        android:insetTop="0dp"
+        android:background="@drawable/circle_shape"
+        app:icon="@drawable/ic_google"
+        app:iconTint="@null"
+        app:iconGravity="textStart"
+        app:iconSize="32dp"
+        app:iconPadding="0dp" />
+
+</LinearLayout>
