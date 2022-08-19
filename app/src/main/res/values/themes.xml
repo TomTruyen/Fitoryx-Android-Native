@@ -1,6 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.FitoryxNative" parent="Theme.MaterialComponents.Light">
+        <item name="fontFamily">@font/open_sans</item>
+        <item name="android:fontFamily">@font/open_sans</item>
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/blue_700</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -14,6 +16,8 @@
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
         <!-- Action bar style. -->
         <item name="actionBarStyle">@style/ActionBar</item>
+        <!-- Edit Text style-->
+        <item name="editTextStyle">@style/EditText</item>
     </style>
 
     <style name="ActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
@@ -25,5 +29,9 @@
 
     <style name="ActionBar.TitleTextStyle" parent="@style/TextAppearance.AppCompat.Title">
         <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="EditText" parent="Widget.Material3.TextInputEditText.FilledBox">
+
     </style>
 </resources>
