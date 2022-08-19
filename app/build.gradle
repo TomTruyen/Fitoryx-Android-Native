@@ -53,4 +53,8 @@ dependencies {
 
     // RxKotlin
     implementation "io.reactivex.rxjava3:rxkotlin:3.0.1"
+
+    // Firebase
+    implementation platform("com.google.firebase:firebase-bom:30.3.2")
+    implementation "com.google.firebase:firebase-auth"
 }
