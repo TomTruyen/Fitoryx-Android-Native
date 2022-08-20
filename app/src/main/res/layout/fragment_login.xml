@@ -34,8 +34,7 @@
         android:id="@+id/email_text_input_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        app:errorEnabled="true"
+        android:layout_marginBottom="@dimen/padding_default"
         >
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -52,8 +51,7 @@
         android:id="@+id/password_text_input_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        app:errorEnabled="true"
+        android:layout_marginBottom="@dimen/padding_default"
         >
     <com.google.android.material.textfield.TextInputEditText
         android:layout_width="match_parent"
@@ -70,7 +68,6 @@
         android:id="@+id/login_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="8dp"
         android:text="@string/sign_in"
         />
 

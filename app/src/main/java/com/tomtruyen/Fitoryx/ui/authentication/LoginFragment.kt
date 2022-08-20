@@ -49,8 +49,8 @@ class LoginFragment : Fragment() {
         val emailLayout = view.findViewById<TextInputLayout>(R.id.email_text_input_layout)
         val passwordLayout = view.findViewById<TextInputLayout>(R.id.password_text_input_layout)
 
-        emailLayout.error = null
-        passwordLayout.error = null
+        emailLayout.isErrorEnabled = false
+        passwordLayout.isErrorEnabled = false
 
         var email = ""
         var password = ""
@@ -59,11 +59,13 @@ class LoginFragment : Fragment() {
             email = it.text.toString()
 
             if(email.isEmpty()) {
+                emailLayout.isErrorEnabled = true
                 emailLayout.error = resources.getString(R.string.error_email_required)
                 return@let
             }
 
             if(Patterns.EMAIL_ADDRESS.matcher(email).matches().not()) {
+                emailLayout.isErrorEnabled = true
                 emailLayout.error = resources.getString(R.string.error_email_invalid)
                 return@let
             }
@@ -73,6 +75,7 @@ class LoginFragment : Fragment() {
             password = it.text.toString()
 
             if(password.isEmpty()) {
+                passwordLayout.isErrorEnabled = true
                 passwordLayout.error = resources.getString(R.string.error_password_required)
                 return@let
             }
@@ -80,10 +83,10 @@ class LoginFragment : Fragment() {
 
         // TODO
         // Show progress bar on Sign In
-        // Replace the Google error messages with my own
+        // Replace the Google error messages with my own:
         // "the password is invalid or the user does not have a password" should be "the password is invalid"
 
-        if(emailLayout.error == null && passwordLayout.error == null) {
+        if(!emailLayout.isErrorEnabled && !passwordLayout.isErrorEnabled) {
             AuthService.signInWithEmailAndPassword(
                 email = email,
                 password = password,
