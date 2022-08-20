@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.FragmentTransaction
+import com.google.android.material.button.MaterialButton
 import com.tomtruyen.Fitoryx.R
 
 class LoginFragment : Fragment() {
@@ -31,5 +32,13 @@ class LoginFragment : Fragment() {
                 ?.replace(R.id.fragment_container_view, RegisterFragment())
                 ?.commit()
         }
+
+        view.findViewById<MaterialButton>(R.id.login_button).setOnClickListener {
+            handleLogin(view)
+        }
+    }
+
+    private fun handleLogin(view: View) {
+//        val email =
     }
 }

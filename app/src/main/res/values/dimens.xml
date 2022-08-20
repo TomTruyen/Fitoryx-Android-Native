@@ -5,4 +5,5 @@
 
     <dimen name="radius_normal">16dp</dimen>
     <dimen name="text_input_edit_text_with_hint_padding">16dp</dimen>
+    <dimen name="padding_default">16dp</dimen>
 </resources>
