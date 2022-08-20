@@ -24,4 +24,10 @@
     <string name="sign_up">Sign up</string>
     <string name="already_have_an_account">Already have an account?</string>
     <string name="sign_out">Sign out</string>
+    <!-- Errors -->
+    <string name="error_email_required">Email is required</string>
+    <string name="error_email_invalid">Email is invalid</string>
+    <string name="error_password_required">Password is required</string>
+    <string name="error_title">Error</string>
+    <string name="ok">Okay</string>
 </resources>
