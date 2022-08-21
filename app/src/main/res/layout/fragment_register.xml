@@ -43,6 +43,7 @@
             android:hint="@string/email"
             android:singleLine="true"
             android:padding="@dimen/text_input_edit_text_with_hint_padding"
+            android:inputType="textEmailAddress"
             />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -59,6 +60,7 @@
             android:hint="@string/password"
             android:singleLine="true"
             android:padding="@dimen/text_input_edit_text_with_hint_padding"
+            android:inputType="textPassword"
             />
     </com.google.android.material.textfield.TextInputLayout>
 
