@@ -12,4 +12,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="grey">#E5E5E5</color>
     <color name="light_black">#1E1E1E</color>
+    <color name="text_input_grey">#E1E1E1</color>
 </resources>

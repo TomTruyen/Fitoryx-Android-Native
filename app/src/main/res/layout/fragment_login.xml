@@ -64,27 +64,26 @@
         />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.button.MaterialButton
+    <com.tomtruyen.android.material.loadingbutton.LoadingButton
         android:id="@+id/login_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/sign_in"
-        />
+        app:LoadingButton_text="@string/sign_in"
+        app:LoadingButton_indicatorSize="32dp"
+        app:LoadingButton_indicatorThickness="2dp"
+    />
 
     <TextView
         android:id="@+id/register_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/rounded_ripple"
         android:padding="8dp"
         android:clickable="true"
         android:text="@string/need_an_account"
         android:textColor="@color/blue_200"
-        />
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="16dp"
         />
 
     <com.google.android.material.button.MaterialButton

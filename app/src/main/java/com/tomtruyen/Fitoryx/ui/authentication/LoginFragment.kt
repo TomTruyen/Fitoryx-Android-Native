@@ -10,12 +10,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.progressindicator.CircularProgressIndicatorSpec
-import com.google.android.material.progressindicator.IndeterminateDrawable
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.textfield.TextInputLayout
 import com.tomtruyen.Fitoryx.MainActivity
 import com.tomtruyen.Fitoryx.R
 import com.tomtruyen.Fitoryx.service.AuthService
+import com.tomtruyen.android.material.loadingbutton.LoadingButton
 
 class LoginFragment : Fragment() {
     override fun onCreateView(
@@ -40,12 +40,13 @@ class LoginFragment : Fragment() {
                 ?.commit()
         }
 
-        view.findViewById<MaterialButton>(R.id.login_button).setOnClickListener {
-            handleLogin(it as MaterialButton, view)
+
+        view.findViewById<LoadingButton>(R.id.login_button).onClick {
+            handleLogin(it, view)
         }
     }
 
-    private fun handleLogin(button: MaterialButton, view: View) {
+    private fun handleLogin(button: LoadingButton, view: View) {
         val emailLayout = view.findViewById<TextInputLayout>(R.id.email_text_input_layout)
         val passwordLayout = view.findViewById<TextInputLayout>(R.id.password_text_input_layout)
 
@@ -87,6 +88,7 @@ class LoginFragment : Fragment() {
         // "the password is invalid or the user does not have a password" should be "the password is invalid"
 
         if(!emailLayout.isErrorEnabled && !passwordLayout.isErrorEnabled) {
+            button.startLoading()
             AuthService.signInWithEmailAndPassword(
                 email = email,
                 password = password,
@@ -95,6 +97,7 @@ class LoginFragment : Fragment() {
                     activity?.finish()
                 },
                 onFailure = { error ->
+                    button.stopLoading()
                     MaterialAlertDialogBuilder(requireContext())
                         .setTitle(resources.getString(R.string.error_title))
                         .setMessage(error)

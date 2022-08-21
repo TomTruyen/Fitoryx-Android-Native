@@ -6,8 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.fragment.app.FragmentTransaction
 import com.tomtruyen.Fitoryx.R
+import com.tomtruyen.android.material.loadingbutton.LoadingButton
 
 class RegisterFragment : Fragment() {
     override fun onCreateView(
@@ -30,6 +30,10 @@ class RegisterFragment : Fragment() {
                 )
                 ?.replace(R.id.fragment_container_view, LoginFragment())
                 ?.commit()
+        }
+
+        view.findViewById<LoadingButton>(R.id.register_button).onClick {
+            it.startLoading()
         }
     }
 }
