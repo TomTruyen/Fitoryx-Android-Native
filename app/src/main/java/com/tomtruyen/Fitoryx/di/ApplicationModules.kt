@@ -6,10 +6,13 @@ import com.tomtruyen.Fitoryx.ui.nutrition.NutritionViewModel
 import com.tomtruyen.Fitoryx.ui.profile.ProfileViewModel
 import com.tomtruyen.Fitoryx.ui.settings.SettingsViewModel
 import com.tomtruyen.Fitoryx.ui.workout.WorkoutViewModel
+import com.tomtruyen.Fitoryx.utils.InputValidator
+import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val applicationModules = module {
+    single { InputValidator(androidContext().resources) }
     viewModel { ProfileViewModel() }
     viewModel { NutritionViewModel() }
     viewModel { WorkoutViewModel() }

@@ -30,4 +30,5 @@
     <string name="error_password_required">Password is required</string>
     <string name="error_title">Error</string>
     <string name="ok">Okay</string>
+    <string name="error_password_length">Password must be at least 6 characters</string>
 </resources>

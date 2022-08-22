@@ -14,10 +14,15 @@ import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.textfield.TextInputLayout
 import com.tomtruyen.Fitoryx.MainActivity
 import com.tomtruyen.Fitoryx.R
+import com.tomtruyen.Fitoryx.model.utils.Result
 import com.tomtruyen.Fitoryx.service.AuthService
+import com.tomtruyen.Fitoryx.utils.InputValidator
 import com.tomtruyen.android.material.loadingbutton.LoadingButton
+import org.koin.android.ext.android.inject
 
 class LoginFragment : Fragment() {
+    private val validator: InputValidator by inject()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -56,34 +61,31 @@ class LoginFragment : Fragment() {
         var email = ""
         var password = ""
 
-        emailLayout.editText?.let {
+        emailLayout.editText?.let layout@ {
             email = it.text.toString()
 
-            if(email.isEmpty()) {
-                emailLayout.isErrorEnabled = true
-                emailLayout.error = resources.getString(R.string.error_email_required)
-                return@let
-            }
-
-            if(Patterns.EMAIL_ADDRESS.matcher(email).matches().not()) {
-                emailLayout.isErrorEnabled = true
-                emailLayout.error = resources.getString(R.string.error_email_invalid)
-                return@let
+            validator.isValidEmail(email).let { result ->
+                if(result is Result.Error) {
+                    emailLayout.error = result.message
+                    emailLayout.isErrorEnabled = true
+                    return@layout
+                }
             }
         }
 
-        passwordLayout.editText?.let {
+        passwordLayout.editText?.let layout@ {
             password = it.text.toString()
 
-            if(password.isEmpty()) {
-                passwordLayout.isErrorEnabled = true
-                passwordLayout.error = resources.getString(R.string.error_password_required)
-                return@let
+            validator.isValidPassword(password).let { result ->
+                if(result is Result.Error) {
+                    passwordLayout.error = result.message
+                    passwordLayout.isErrorEnabled = true
+                    return@layout
+                }
             }
         }
 
         // TODO
-        // Show progress bar on Sign In
         // Replace the Google error messages with my own:
         // "the password is invalid or the user does not have a password" should be "the password is invalid"
 
