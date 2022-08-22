@@ -3,6 +3,7 @@
     <color name="blue_200">#FF448AFF</color>
     <color name="blue_400">#FF2979FF</color>
     <color name="blue_700">#FF2962FF</color>
+    <color name="blue_700_ripple">#FFE5ECff</color>
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
@@ -11,6 +12,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="grey">#E5E5E5</color>
+    <color name="dark_grey">#4B4450</color>
     <color name="light_black">#1E1E1E</color>
     <color name="text_input_grey">#E1E1E1</color>
 </resources>

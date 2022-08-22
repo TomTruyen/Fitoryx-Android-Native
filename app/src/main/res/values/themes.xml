@@ -22,63 +22,7 @@
         <item name="materialButtonStyle">@style/ButtonStyle</item>
         <!-- AlertDialog (Material) Style -->
         <item name="materialAlertDialogTheme">@style/MaterialAlertDialog</item>
+        <!-- BottomAppbar Styles -->
+        <item name="bottomNavigationStyle">@style/BottomAppBar</item>
     </style>
-
-    <style name="ActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-        <item name="android:background">@color/design_default_color_background</item>
-        <item name="background">@color/design_default_color_background</item>
-        <item name="android:titleTextStyle">@style/ActionBar.TitleTextStyle</item>
-        <item name="titleTextStyle">@style/ActionBar.TitleTextStyle</item>
-    </style>
-
-    <style name="ActionBar.TitleTextStyle" parent="@style/TextAppearance.AppCompat.Title">
-        <item name="android:textColor">@color/black</item>
-    </style>
-
-    <style name="TextInputLayout" parent="Widget.Material3.TextInputLayout.FilledBox">
-        <item name="boxBackgroundColor">@color/text_input_grey</item>
-        <item name="boxCornerRadiusBottomEnd">@dimen/radius_normal</item>
-        <item name="boxCornerRadiusBottomStart">@dimen/radius_normal</item>
-        <item name="boxCornerRadiusTopEnd">@dimen/radius_normal</item>
-        <item name="boxCornerRadiusTopStart">@dimen/radius_normal</item>
-        <item name="boxStrokeWidth">0dp</item>
-        <item name="boxStrokeWidthFocused">0dp</item>
-        <item name="hintEnabled">false</item>
-    </style>
-
-    <style name="ButtonStyle" parent="Widget.Material3.Button">
-        <item name="android:textAllCaps">false</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="backgroundTint">@null</item>
-        <item name="android:background">@drawable/blue_gradient</item>
-        <item name="cornerRadius">@dimen/radius_normal</item>
-        <item name="elevation">0dp</item>
-        <item name="android:height">50dp</item>
-        <item name="android:letterSpacing">0</item>
-    </style>
-
-    <style name="MaterialAlertDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
-        <item name="materialAlertDialogTitleTextStyle">@style/MaterialAlertDialog.TitleTextStyle</item>
-        <item name="materialAlertDialogBodyTextStyle">@style/MaterialAlertDialog.BodyTextStyle</item>
-        <item name="shapeAppearance">@style/MaterialAlertDialog.ShapeAppearance</item>
-    </style>
-
-    <style name="MaterialAlertDialog.TitleTextStyle" parent="MaterialAlertDialog.Material3.Title.Text">
-        <item name="android:textColor">@color/black</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">18sp</item>
-    </style>
-
-    <style name="MaterialAlertDialog.BodyTextStyle" parent="MaterialAlertDialog.Material3.Body.Text">
-        <item name="android:textColor">@color/black</item>
-        <item name="android:textSize">14sp</item>
-        <item name="android:layout_marginVertical">4dp</item>
-    </style>
-
-    <style name="MaterialAlertDialog.ShapeAppearance" parent="ShapeAppearance.Material3.MediumComponent">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">@dimen/radius_normal</item>
-    </style>
-
-
 </resources>
