@@ -86,19 +86,16 @@
         android:textColor="@color/blue_200"
         />
 
-    <com.google.android.material.button.MaterialButton
+    <ImageButton
         android:id="@+id/google_sign_in_button"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:insetLeft="0dp"
-        android:insetBottom="0dp"
-        android:insetRight="0dp"
-        android:insetTop="0dp"
         android:background="@drawable/circle_shape"
-        app:icon="@drawable/ic_google"
-        app:iconTint="@null"
-        app:iconGravity="textStart"
-        app:iconSize="32dp"
-        app:iconPadding="0dp" />
+        android:elevation="8dp"
+        android:src="@drawable/ic_google"
+        android:scaleType="fitCenter"
+        android:padding="12dp"
+        android:contentDescription="@null"
+        />
 
 </LinearLayout>
