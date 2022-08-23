@@ -27,7 +27,7 @@
     <string name="sign_out">Sign out</string>
     <string name="ok">Okay</string>
     <!-- Errors -->
-    <string name="google_sign_in_failed">Authentication with Google failed</string>
+    <string name="google_sign_in_failed">Sign in with Google failed %1$s</string>
     <string name="error_email_required">Email is required</string>
     <string name="error_email_invalid">Email is invalid</string>
     <string name="error_password_required">Password is required</string>

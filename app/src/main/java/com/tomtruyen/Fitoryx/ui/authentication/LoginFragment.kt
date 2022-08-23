@@ -1,27 +1,82 @@
 package com.tomtruyen.Fitoryx.ui.authentication
 
+import android.app.Activity
 import android.content.Intent
+import android.content.IntentSender
 import android.os.Bundle
 import android.util.Patterns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
+import com.google.android.gms.auth.api.identity.BeginSignInRequest
+import com.google.android.gms.auth.api.identity.BeginSignInResult
+import com.google.android.gms.auth.api.identity.Identity
+import com.google.android.gms.auth.api.identity.SignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.textfield.TextInputLayout
+import com.google.firebase.auth.GoogleAuthProvider
 import com.tomtruyen.Fitoryx.MainActivity
 import com.tomtruyen.Fitoryx.R
 import com.tomtruyen.Fitoryx.model.utils.Result
 import com.tomtruyen.Fitoryx.service.AuthService
+import com.tomtruyen.Fitoryx.service.GoogleAuthService
 import com.tomtruyen.Fitoryx.utils.InputValidator
+import com.tomtruyen.Fitoryx.utils.Utils
 import com.tomtruyen.android.material.loadingbutton.LoadingButton
 import org.koin.android.ext.android.inject
 
 class LoginFragment : Fragment() {
     private val validator: InputValidator by inject()
+
+    private lateinit var oneTapClient: SignInClient
+
+    private val oneTapIntentLauncher = registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) {
+        if(it.resultCode == Activity.RESULT_OK) {
+            try {
+                val credentials = oneTapClient.getSignInCredentialFromIntent(it.data)
+                val idToken = credentials.googleIdToken
+
+                signInWithCredentials(idToken)
+            } catch (e: ApiException) {
+                when(e.statusCode) {
+                    CommonStatusCodes.CANCELED -> {
+                        println("Canceled OneTap")
+                    }
+                    CommonStatusCodes.NETWORK_ERROR -> {
+                        println("Network error OneTap")
+                    }
+                    else -> {
+                        println("Unknown error OneTap")
+                    }
+                }
+            }
+        }
+    }
+
+    private val fallbackIntentLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        if (it.resultCode == Activity.RESULT_OK) {
+            try {
+                val credentials = GoogleSignIn.getSignedInAccountFromIntent(it.data)
+                val idToken = credentials.result.idToken
+
+                signInWithCredentials(idToken)
+            } catch (e: ApiException) {
+
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,6 +87,8 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        oneTapClient = Identity.getSignInClient(requireContext())
 
         view.findViewById<TextView>(R.id.register_text_view).setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()
@@ -49,6 +106,27 @@ class LoginFragment : Fragment() {
         view.findViewById<LoadingButton>(R.id.login_button).onClick {
             handleLogin(it, view)
         }
+
+        view.findViewById<ImageButton>(R.id.google_sign_in_button).setOnClickListener {
+            GoogleAuthService(
+                context = requireContext(),
+                client = oneTapClient,
+                clientId = getString(R.string.firebase_client_id),
+                oneTapIntentLauncher = oneTapIntentLauncher,
+                fallbackIntentLauncher = fallbackIntentLauncher,
+                onFailure = { error ->
+                    Utils.showErrorDialog(requireContext(), error)
+                }
+            ).also {
+                it.signInWithGoogle()
+            }
+        }
+    }
+
+    private fun finishLogin() {
+        val intent = Intent(requireContext(), MainActivity::class.java)
+        startActivity(intent)
+        activity?.finish()
     }
 
     private fun handleLogin(button: LoadingButton, view: View) {
@@ -85,30 +163,34 @@ class LoginFragment : Fragment() {
             }
         }
 
-        // TODO
-        // Replace the Google error messages with my own:
-        // "the password is invalid or the user does not have a password" should be "the password is invalid"
-
         if(!emailLayout.isErrorEnabled && !passwordLayout.isErrorEnabled) {
             button.startLoading()
             AuthService.signInWithEmailAndPassword(
                 email = email,
                 password = password,
                 onSuccess = {
-                    startActivity(Intent(requireContext(), MainActivity::class.java))
-                    activity?.finish()
+                    finishLogin()
                 },
                 onFailure = { error ->
                     button.stopLoading()
-                    MaterialAlertDialogBuilder(requireContext())
-                        .setTitle(resources.getString(R.string.error_title))
-                        .setMessage(error)
-                        .setPositiveButton(resources.getString(R.string.ok)) { dialog, _ ->
-                            dialog.dismiss()
-                        }
-                        .show()
+                    Utils.showErrorDialog(requireContext(), error)
                 }
             )
+        }
+    }
+
+    private fun signInWithCredentials(idToken: String?) {
+        try {
+
+        } catch (e: ApiException) {
+            Utils.showErrorDialog(requireContext(), getString(R.string.google_sign_in_failed, e.statusCode.toString()))
+        }
+        GoogleAuthService.signInWithCredentials(idToken).addOnCompleteListener { task ->
+            if(task.isSuccessful) {
+                finishLogin()
+            } else {
+                Utils.showErrorDialog(requireContext(), task.exception?.message ?: getString(R.string.google_sign_in_failed, "Credentials"))
+            }
         }
     }
 }
