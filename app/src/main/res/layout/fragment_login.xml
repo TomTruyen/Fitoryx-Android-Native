@@ -6,96 +6,119 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:gravity="center"
-    android:padding="16dp"
     tools:context=".ui.authentication.LoginFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/welcome_back"
-        android:textStyle="bold"
-        android:textColor="@color/black"
-        android:textSize="32sp"
-        />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/sign_in_to_continue_to_fitoryx"
-        android:textSize="16sp"
-        />
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="32dp"
-        />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/email_text_input_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/padding_default"
-        >
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:imeOptions="actionNext"
-            android:hint="@string/email"
-            android:singleLine="true"
-            android:padding="@dimen/text_input_edit_text_with_hint_padding"
-            android:inputType="textEmailAddress"
-            />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/password_text_input_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/padding_default"
-        >
-    <com.google.android.material.textfield.TextInputEditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:imeOptions="actionNext"
-        android:hint="@string/password"
-        android:singleLine="true"
-        android:padding="@dimen/text_input_edit_text_with_hint_padding"
-        android:inputType="textPassword"
-        />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.tomtruyen.android.material.loadingbutton.LoadingButton
-        android:id="@+id/login_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:LoadingButton_text="@string/sign_in"
-        app:LoadingButton_indicatorSize="32dp"
-        app:LoadingButton_indicatorThickness="2dp"
-    />
-
-    <TextView
-        android:id="@+id/register_text_view"
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/login_progress_indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/rounded_ripple"
-        android:padding="8dp"
-        android:clickable="true"
-        android:text="@string/need_an_account"
-        android:textColor="@color/blue_200"
-        />
+        android:indeterminate="true"
+        android:visibility="gone"
+        app:trackThickness="2dp"
+        app:indicatorColor="@color/blue_700"
+        android:layout_gravity="center"/>
 
-    <ImageButton
-        android:id="@+id/google_sign_in_button"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:background="@drawable/circle_shape"
-        android:elevation="8dp"
-        android:src="@drawable/ic_google"
-        android:scaleType="fitCenter"
-        android:padding="12dp"
-        android:contentDescription="@null"
-        />
+    <!--  LinearLayout is used to hide the entire form when showing loader on Google Sign In  -->
+    <LinearLayout
+        android:id="@+id/login_form"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:gravity="center"
+        >
+        <TextView
+            android:id="@+id/login_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/welcome_back"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="32sp"
+            />
+
+        <TextView
+            android:id="@+id/login_subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sign_in_to_continue_to_fitoryx"
+            android:textSize="16sp"
+            />
+
+        <Space
+            android:id="@+id/login_space"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/email_text_input_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/padding_default"
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionNext"
+                android:hint="@string/email"
+                android:singleLine="true"
+                android:padding="@dimen/text_input_edit_text_with_hint_padding"
+                android:inputType="textEmailAddress"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/password_text_input_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/padding_default"
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionNext"
+                android:hint="@string/password"
+                android:singleLine="true"
+                android:padding="@dimen/text_input_edit_text_with_hint_padding"
+                android:inputType="textPassword"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.tomtruyen.android.material.loadingbutton.LoadingButton
+            android:id="@+id/login_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:LoadingButton_text="@string/sign_in"
+            app:LoadingButton_indicatorSize="32dp"
+            app:LoadingButton_indicatorThickness="2dp"
+            />
+
+        <TextView
+            android:id="@+id/register_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/rounded_ripple"
+            android:padding="8dp"
+            android:clickable="true"
+            android:text="@string/need_an_account"
+            android:textColor="@color/blue_200"
+            />
+
+        <ImageButton
+            android:id="@+id/google_sign_in_button"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:background="@drawable/circle_shape"
+            android:elevation="8dp"
+            android:src="@drawable/ic_google"
+            android:scaleType="fitCenter"
+            android:padding="12dp"
+            android:contentDescription="@null"
+            />
+    </LinearLayout>
+
 
 </LinearLayout>

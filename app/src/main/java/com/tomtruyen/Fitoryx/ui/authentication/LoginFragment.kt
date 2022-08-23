@@ -10,9 +10,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.constraintlayout.widget.Group
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.BeginSignInResult
 import com.google.android.gms.auth.api.identity.Identity
@@ -44,37 +46,19 @@ class LoginFragment : Fragment() {
 
     private val oneTapIntentLauncher = registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) {
         if(it.resultCode == Activity.RESULT_OK) {
-            try {
-                val credentials = oneTapClient.getSignInCredentialFromIntent(it.data)
-                val idToken = credentials.googleIdToken
+            val credentials = oneTapClient.getSignInCredentialFromIntent(it.data)
+            val idToken = credentials.googleIdToken
 
-                signInWithCredentials(idToken)
-            } catch (e: ApiException) {
-                when(e.statusCode) {
-                    CommonStatusCodes.CANCELED -> {
-                        println("Canceled OneTap")
-                    }
-                    CommonStatusCodes.NETWORK_ERROR -> {
-                        println("Network error OneTap")
-                    }
-                    else -> {
-                        println("Unknown error OneTap")
-                    }
-                }
-            }
+            signInWithCredentials(idToken)
         }
     }
 
     private val fallbackIntentLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         if (it.resultCode == Activity.RESULT_OK) {
-            try {
-                val credentials = GoogleSignIn.getSignedInAccountFromIntent(it.data)
-                val idToken = credentials.result.idToken
+            val credentials = GoogleSignIn.getSignedInAccountFromIntent(it.data)
+            val idToken = credentials.result.idToken
 
-                signInWithCredentials(idToken)
-            } catch (e: ApiException) {
-
-            }
+            signInWithCredentials(idToken)
         }
     }
 
@@ -104,10 +88,11 @@ class LoginFragment : Fragment() {
 
 
         view.findViewById<LoadingButton>(R.id.login_button).onClick {
-            handleLogin(it, view)
+            handleLogin(it)
         }
 
         view.findViewById<ImageButton>(R.id.google_sign_in_button).setOnClickListener {
+            showLoading()
             GoogleAuthService(
                 context = requireContext(),
                 client = oneTapClient,
@@ -115,11 +100,28 @@ class LoginFragment : Fragment() {
                 oneTapIntentLauncher = oneTapIntentLauncher,
                 fallbackIntentLauncher = fallbackIntentLauncher,
                 onFailure = { error ->
+                    hideLoading()
                     Utils.showErrorDialog(requireContext(), error)
                 }
             ).also {
                 it.signInWithGoogle()
             }
+        }
+    }
+
+    private fun showLoading() {
+        println("showLoading")
+        view?.let {
+            println("view not null")
+            it.findViewById<LinearLayout>(R.id.login_form).visibility = View.GONE
+            it.findViewById<CircularProgressIndicator>(R.id.login_progress_indicator).visibility = View.VISIBLE
+        }
+    }
+
+    private fun hideLoading() {
+        view?.let {
+            it.findViewById<LinearLayout>(R.id.login_form).visibility = View.VISIBLE
+            it.findViewById<CircularProgressIndicator>(R.id.login_progress_indicator).visibility = View.GONE
         }
     }
 
@@ -129,68 +131,71 @@ class LoginFragment : Fragment() {
         activity?.finish()
     }
 
-    private fun handleLogin(button: LoadingButton, view: View) {
-        val emailLayout = view.findViewById<TextInputLayout>(R.id.email_text_input_layout)
-        val passwordLayout = view.findViewById<TextInputLayout>(R.id.password_text_input_layout)
+    private fun handleLogin(button: LoadingButton) {
+        view?.let { view ->
+            val emailLayout = view.findViewById<TextInputLayout>(R.id.email_text_input_layout)
+            val passwordLayout = view.findViewById<TextInputLayout>(R.id.password_text_input_layout)
 
-        emailLayout.isErrorEnabled = false
-        passwordLayout.isErrorEnabled = false
+            emailLayout.isErrorEnabled = false
+            passwordLayout.isErrorEnabled = false
 
-        var email = ""
-        var password = ""
+            var email = ""
+            var password = ""
 
-        emailLayout.editText?.let layout@ {
-            email = it.text.toString()
+            emailLayout.editText?.let layout@{
+                email = it.text.toString()
 
-            validator.isValidEmail(email).let { result ->
-                if(result is Result.Error) {
-                    emailLayout.error = result.message
-                    emailLayout.isErrorEnabled = true
-                    return@layout
+                validator.isValidEmail(email).let { result ->
+                    if (result is Result.Error) {
+                        emailLayout.error = result.message
+                        emailLayout.isErrorEnabled = true
+                        return@layout
+                    }
                 }
             }
-        }
 
-        passwordLayout.editText?.let layout@ {
-            password = it.text.toString()
+            passwordLayout.editText?.let layout@{
+                password = it.text.toString()
 
-            validator.isValidPassword(password).let { result ->
-                if(result is Result.Error) {
-                    passwordLayout.error = result.message
-                    passwordLayout.isErrorEnabled = true
-                    return@layout
+                validator.isValidPassword(password).let { result ->
+                    if (result is Result.Error) {
+                        passwordLayout.error = result.message
+                        passwordLayout.isErrorEnabled = true
+                        return@layout
+                    }
                 }
             }
-        }
 
-        if(!emailLayout.isErrorEnabled && !passwordLayout.isErrorEnabled) {
-            button.startLoading()
-            AuthService.signInWithEmailAndPassword(
-                email = email,
-                password = password,
-                onSuccess = {
-                    finishLogin()
-                },
-                onFailure = { error ->
-                    button.stopLoading()
-                    Utils.showErrorDialog(requireContext(), error)
-                }
-            )
+            if (!emailLayout.isErrorEnabled && !passwordLayout.isErrorEnabled) {
+                button.startLoading()
+                AuthService.signInWithEmailAndPassword(
+                    email = email,
+                    password = password,
+                    onSuccess = {
+                        finishLogin()
+                    },
+                    onFailure = { error ->
+                        button.stopLoading()
+                        Utils.showErrorDialog(requireContext(), error)
+                    }
+                )
+            }
         }
     }
 
     private fun signInWithCredentials(idToken: String?) {
         try {
-
-        } catch (e: ApiException) {
-            Utils.showErrorDialog(requireContext(), getString(R.string.google_sign_in_failed, e.statusCode.toString()))
-        }
-        GoogleAuthService.signInWithCredentials(idToken).addOnCompleteListener { task ->
-            if(task.isSuccessful) {
-                finishLogin()
-            } else {
-                Utils.showErrorDialog(requireContext(), task.exception?.message ?: getString(R.string.google_sign_in_failed, "Credentials"))
+            GoogleAuthService.signInWithCredentials(idToken).addOnCompleteListener { task ->
+                if(task.isSuccessful) {
+                    finishLogin()
+                } else {
+                    hideLoading()
+                    Utils.showErrorDialog(requireContext(), task.exception?.message ?: getString(R.string.google_sign_in_failed, "Credentials"))
+                }
             }
+        } catch (e: ApiException) {
+            hideLoading()
+            Utils.showErrorDialog(requireContext(), getString(R.string.google_sign_in_failed, e.statusCode.toString()))
         }
     }
 }

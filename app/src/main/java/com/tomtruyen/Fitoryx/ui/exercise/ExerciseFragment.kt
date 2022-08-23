@@ -38,7 +38,7 @@ class ExerciseFragment : Fragment() {
         setActions()
 
         adapter = ExerciseAdapter(viewModel.exercises.value!!)
-        setRecyclerView(view)
+        setRecyclerView()
 
         viewModel.exercises.observe(viewLifecycleOwner) {
             adapter.updateExercises(it)
@@ -72,11 +72,13 @@ class ExerciseFragment : Fragment() {
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
-    private fun setRecyclerView(view: View) {
-        view.findViewById<RecyclerView>(R.id.exercise_recyler_view).apply {
-            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-            adapter = this@ExerciseFragment.adapter
-            edgeEffectFactory = BounceEdgeEffectFactory()
+    private fun setRecyclerView() {
+        view?.let {
+            it.findViewById<RecyclerView>(R.id.exercise_recyler_view).apply {
+                layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+                adapter = this@ExerciseFragment.adapter
+                edgeEffectFactory = BounceEdgeEffectFactory()
+            }
         }
     }
 
