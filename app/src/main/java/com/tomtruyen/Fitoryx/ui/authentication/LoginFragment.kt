@@ -42,6 +42,7 @@ import org.koin.android.ext.android.inject
 class LoginFragment : Fragment() {
     private val validator: InputValidator by inject()
 
+    private var showOneTapUI = true
     private lateinit var oneTapClient: SignInClient
 
     private val oneTapIntentLauncher = registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) {
@@ -50,6 +51,8 @@ class LoginFragment : Fragment() {
             val idToken = credentials.googleIdToken
 
             signInWithCredentials(idToken)
+        } else {
+            hideLoading()
         }
     }
 
@@ -59,6 +62,8 @@ class LoginFragment : Fragment() {
             val idToken = credentials.result.idToken
 
             signInWithCredentials(idToken)
+        } else {
+            hideLoading()
         }
     }
 
@@ -73,6 +78,8 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         oneTapClient = Identity.getSignInClient(requireContext())
+        // Set OneTapClient in the AuthService to be able to properly sign out
+        AuthService.oneTapClient = oneTapClient
 
         view.findViewById<TextView>(R.id.register_text_view).setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()
@@ -102,17 +109,19 @@ class LoginFragment : Fragment() {
                 onFailure = { error ->
                     hideLoading()
                     Utils.showErrorDialog(requireContext(), error)
+                },
+                onCancel = {
+                    hideLoading()
                 }
             ).also {
-                it.signInWithGoogle()
+                showLoading()
+                it.signInWithGoogle(showOneTapUI)
             }
         }
     }
 
     private fun showLoading() {
-        println("showLoading")
         view?.let {
-            println("view not null")
             it.findViewById<LinearLayout>(R.id.login_form).visibility = View.GONE
             it.findViewById<CircularProgressIndicator>(R.id.login_progress_indicator).visibility = View.VISIBLE
         }
@@ -195,7 +204,14 @@ class LoginFragment : Fragment() {
             }
         } catch (e: ApiException) {
             hideLoading()
-            Utils.showErrorDialog(requireContext(), getString(R.string.google_sign_in_failed, e.statusCode.toString()))
+            when (e.statusCode) {
+                CommonStatusCodes.CANCELED -> {
+                    showOneTapUI = false
+                }
+                else -> {
+                    Utils.showErrorDialog(requireContext(), getString(R.string.google_sign_in_failed, e.statusCode.toString()))
+                }
+            }
         }
     }
 }

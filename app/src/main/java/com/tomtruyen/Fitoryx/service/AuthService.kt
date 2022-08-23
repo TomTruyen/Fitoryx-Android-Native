@@ -1,10 +1,12 @@
 package com.tomtruyen.Fitoryx.service
 
+import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
 object AuthService {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
+    var oneTapClient: SignInClient? = null
 
     fun isLoggedIn(): Boolean {
         return auth.currentUser != null
@@ -47,6 +49,7 @@ object AuthService {
     }
 
     fun signOut() {
+        oneTapClient?.signOut()
         auth.signOut()
     }
 }

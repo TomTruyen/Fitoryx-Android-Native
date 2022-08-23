@@ -22,16 +22,22 @@ class GoogleAuthService(
     private val clientId: String,
     private val oneTapIntentLauncher: ActivityResultLauncher<IntentSenderRequest>,
     private val fallbackIntentLauncher: ActivityResultLauncher<Intent>,
-    private val onFailure: (String) -> Unit
+    private val onFailure: (String) -> Unit,
+    private val onCancel: () -> Unit,
     ) {
-    fun signInWithGoogle() {
-        client.beginSignIn(provideSignInRequest())
-            .addOnSuccessListener {
-                signInWithOneTap(it)
-            }
-            .addOnFailureListener {
-                signUpWithOneTap()
-            }
+    fun signInWithGoogle(showOneTapUI: Boolean) {
+        if(showOneTapUI) {
+            client.beginSignIn(provideSignInRequest())
+                .addOnSuccessListener {
+                    signInWithOneTap(it)
+                }
+                .addOnFailureListener {
+                    signUpWithOneTap()
+                }
+                .addOnCanceledListener { onCancel() }
+        } else {
+            signInWithFallback()
+        }
     }
 
     private fun signInWithOneTap(result: BeginSignInResult) {
@@ -52,6 +58,7 @@ class GoogleAuthService(
             .addOnFailureListener {
                 signInWithFallback()
             }
+            .addOnCanceledListener { onCancel() }
     }
 
     private fun signInWithFallback() {
