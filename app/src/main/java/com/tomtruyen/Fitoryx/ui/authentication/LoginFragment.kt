@@ -110,9 +110,6 @@ class LoginFragment : Fragment() {
                     hideLoading()
                     Utils.showErrorDialog(requireContext(), error)
                 },
-                onCancel = {
-                    hideLoading()
-                }
             ).also {
                 showLoading()
                 it.signInWithGoogle(showOneTapUI)
