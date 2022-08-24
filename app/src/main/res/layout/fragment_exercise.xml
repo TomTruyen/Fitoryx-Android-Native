@@ -6,13 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".ui.exercise.ExerciseFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/exercise_recyler_view"
+    <com.factor.bouncy.BouncyRecyclerView
+        android:id="@+id/exercise_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_exercise_fab"

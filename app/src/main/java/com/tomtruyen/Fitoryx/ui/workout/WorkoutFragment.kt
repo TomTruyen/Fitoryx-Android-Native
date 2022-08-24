@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
+import com.factor.bouncy.BouncyNestedScrollView
 import com.tomtruyen.Fitoryx.R
 import com.tomtruyen.Fitoryx.utils.Utils
 import com.tomtruyen.Fitoryx.utils.setActionBarElevationOnScroll
@@ -26,7 +27,7 @@ class WorkoutFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.findViewById<NestedScrollView>(R.id.nested_scroll_view).setActionBarElevationOnScroll(
+        view.findViewById<BouncyNestedScrollView>(R.id.nested_scroll_view).setActionBarElevationOnScroll(
             Utils.getSupportActionBar(requireActivity())
         )
 

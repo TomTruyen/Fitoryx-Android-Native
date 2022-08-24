@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
+import com.factor.bouncy.BouncyNestedScrollView
 import com.google.android.material.button.MaterialButton
 import com.tomtruyen.Fitoryx.AuthenticationActivity
 import com.tomtruyen.Fitoryx.R
@@ -31,7 +32,7 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.findViewById<NestedScrollView>(R.id.nested_scroll_view).setActionBarElevationOnScroll(
+        view.findViewById<BouncyNestedScrollView>(R.id.nested_scroll_view).setActionBarElevationOnScroll(
             Utils.getSupportActionBar(requireActivity())
         )
 

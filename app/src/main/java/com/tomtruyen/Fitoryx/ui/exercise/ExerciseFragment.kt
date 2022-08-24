@@ -13,11 +13,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.factor.bouncy.BouncyNestedScrollView
+import com.factor.bouncy.BouncyRecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.tomtruyen.Fitoryx.MainActivity
 import com.tomtruyen.Fitoryx.R
-import com.tomtruyen.Fitoryx.helper.BounceEdgeEffectFactory
 import com.tomtruyen.Fitoryx.ui.exercise.filter.ExerciseFilterActivity
 import com.tomtruyen.Fitoryx.utils.Utils
 import com.tomtruyen.Fitoryx.utils.setActionBarElevationOnScroll
@@ -77,14 +78,11 @@ class ExerciseFragment : Fragment() {
 
     private fun setRecyclerView() {
         view?.let {
-            it.findViewById<RecyclerView>(R.id.exercise_recyler_view).apply {
+            it.findViewById<BouncyRecyclerView>(R.id.exercise_recycler_view).apply {
                 layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
                 adapter = this@ExerciseFragment.adapter
-                edgeEffectFactory = BounceEdgeEffectFactory()
             }.also { recyclerView ->
                 recyclerView.setActionBarElevationOnScroll(Utils.getSupportActionBar(requireActivity()))
-
-
             }
         }
     }

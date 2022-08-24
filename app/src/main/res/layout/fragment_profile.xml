@@ -6,13 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".ui.profile.ProfileFragment">
 
-    <androidx.core.widget.NestedScrollView
+    <com.factor.bouncy.BouncyNestedScrollView
         android:id="@+id/nested_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:overScrollMode="never"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:fillViewport="true">
 
     <TextView
         android:id="@+id/text_profile"
@@ -25,5 +23,5 @@
         android:gravity="center"
         android:textSize="20sp"
         />
-    </androidx.core.widget.NestedScrollView>
+    </com.factor.bouncy.BouncyNestedScrollView>
 </RelativeLayout>
