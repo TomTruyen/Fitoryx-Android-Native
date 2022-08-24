@@ -6,7 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.widget.NestedScrollView
 import com.tomtruyen.Fitoryx.R
+import com.tomtruyen.Fitoryx.utils.Utils
+import com.tomtruyen.Fitoryx.utils.setActionBarElevationOnScroll
 import org.koin.android.ext.android.inject
 
 class ProfileFragment : Fragment() {
@@ -22,6 +25,10 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        view.findViewById<NestedScrollView>(R.id.nested_scroll_view).setActionBarElevationOnScroll(
+            Utils.getSupportActionBar(requireActivity())
+        )
 
         viewModel.text.observe(viewLifecycleOwner) {
             view.findViewById<TextView>(R.id.text_profile).text = it

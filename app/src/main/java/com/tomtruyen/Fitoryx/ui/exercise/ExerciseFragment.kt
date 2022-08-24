@@ -15,9 +15,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
+import com.tomtruyen.Fitoryx.MainActivity
 import com.tomtruyen.Fitoryx.R
 import com.tomtruyen.Fitoryx.helper.BounceEdgeEffectFactory
 import com.tomtruyen.Fitoryx.ui.exercise.filter.ExerciseFilterActivity
+import com.tomtruyen.Fitoryx.utils.Utils
+import com.tomtruyen.Fitoryx.utils.setActionBarElevationOnScroll
 import org.koin.android.ext.android.inject
 
 class ExerciseFragment : Fragment() {
@@ -78,6 +81,10 @@ class ExerciseFragment : Fragment() {
                 layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
                 adapter = this@ExerciseFragment.adapter
                 edgeEffectFactory = BounceEdgeEffectFactory()
+            }.also { recyclerView ->
+                recyclerView.setActionBarElevationOnScroll(Utils.getSupportActionBar(requireActivity()))
+
+
             }
         }
     }

@@ -6,11 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import com.google.android.material.button.MaterialButton
 import com.tomtruyen.Fitoryx.AuthenticationActivity
 import com.tomtruyen.Fitoryx.R
 import com.tomtruyen.Fitoryx.service.AuthService
+import com.tomtruyen.Fitoryx.utils.Utils
+import com.tomtruyen.Fitoryx.utils.setActionBarElevationOnScroll
 import org.koin.android.ext.android.inject
 
 
@@ -27,6 +30,10 @@ class SettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        view.findViewById<NestedScrollView>(R.id.nested_scroll_view).setActionBarElevationOnScroll(
+            Utils.getSupportActionBar(requireActivity())
+        )
 
         view.findViewById<MaterialButton>(R.id.sign_out_button).setOnClickListener {
             signOut()

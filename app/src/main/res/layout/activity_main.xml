@@ -6,15 +6,16 @@
     android:layout_height="match_parent"
     >
 
+
     <!--  Must be fragment and not FragmentContainerView, as FragmentContainerView will cause crashes  -->
-    <fragment
-        android:id="@+id/nav_host"
-        android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/m3_bottom_navigation_min_height"
-        app:defaultNavHost="true"
-        app:navGraph="@navigation/mobile_navigation" />
+        <fragment
+            android:id="@+id/nav_host"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/m3_bottom_navigation_min_height"
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/mobile_navigation" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_view"

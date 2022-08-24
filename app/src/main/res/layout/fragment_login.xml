@@ -15,7 +15,7 @@
         android:indeterminate="true"
         android:visibility="gone"
         app:trackThickness="2dp"
-        app:indicatorColor="@color/blue_700"
+        app:indicatorColor="@color/blue_400"
         android:layout_gravity="center"/>
 
     <!--  LinearLayout is used to hide the entire form when showing loader on Google Sign In  -->
@@ -104,7 +104,7 @@
             android:padding="8dp"
             android:clickable="true"
             android:text="@string/need_an_account"
-            android:textColor="@color/blue_200"
+            android:textColor="@color/blue_300"
             />
 
         <ImageButton

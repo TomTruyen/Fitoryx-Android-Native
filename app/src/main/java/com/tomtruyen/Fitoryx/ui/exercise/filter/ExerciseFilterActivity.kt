@@ -82,10 +82,6 @@ class ExerciseFilterActivity : AppCompatActivity() {
         val chip = Chip(this).apply {
             id = value.hashCode()
             text = value
-            isCheckable = true
-            isCheckedIconVisible = false
-            chipBackgroundColor = ContextCompat.getColorStateList(this@ExerciseFilterActivity, R.color.chip_background_color)
-            setTextColor(ContextCompat.getColorStateList(this@ExerciseFilterActivity, R.color.chip_text_color))
         }
 
         // Set already selected filters as checked by using the value passed in the Bundle of the Intent

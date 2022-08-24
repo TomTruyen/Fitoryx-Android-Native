@@ -1,10 +1,17 @@
 package com.tomtruyen.Fitoryx.utils
 
 import android.content.Context
+import androidx.appcompat.app.ActionBar
+import androidx.fragment.app.FragmentActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.tomtruyen.Fitoryx.MainActivity
 import com.tomtruyen.Fitoryx.R
 
 object Utils {
+    fun getSupportActionBar(activity: FragmentActivity): ActionBar? {
+        return (activity as MainActivity).supportActionBar
+    }
+
     fun showErrorDialog(context: Context, message: String) {
         MaterialAlertDialogBuilder(context)
             .setTitle(R.string.error_title)
