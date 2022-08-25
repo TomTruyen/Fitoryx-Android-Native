@@ -68,15 +68,12 @@ class ExerciseFragment : Fragment() {
         val menuHost: MenuHost = requireActivity()
         menuHost.addMenuProvider(object: MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                println("onCreateMenu")
                 optionsMenu = menu
-                val actions = menuInflater.inflate(R.menu.exercise_actions_menu, menu)
+                menuInflater.inflate(R.menu.exercise_actions_menu, menu)
 
                 if(isSearching) {
                     hideSearchIcon()
                 }
-
-                return actions
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
