@@ -19,6 +19,7 @@ class ExerciseViewModel : ViewModel() {
 
     val exercises = MutableLiveData(_exercises)
 
+    private var filterQuery = ""
     private val filterCategories = MutableLiveData<List<String>>(emptyList())
     private val filterEquipment = MutableLiveData<List<String>>(emptyList())
 
@@ -51,6 +52,12 @@ class ExerciseViewModel : ViewModel() {
     fun getEquipmentFilters(): List<String> = filterEquipment.value ?: emptyList()
 
     private fun filter() {
+        exercises.value = _exercises
+
+        if(filterQuery.isEmpty() && filterCategories.value.isNullOrEmpty() && filterEquipment.value.isNullOrEmpty()) {
+            return
+        }
+
         exercises.value = _exercises.filter categoryFilter@ {
             if(filterCategories.value.isNullOrEmpty()) return@categoryFilter true
             return@categoryFilter filterCategories.value!!.contains(it.category)
@@ -62,6 +69,8 @@ class ExerciseViewModel : ViewModel() {
             }
 
             return@equipmentFilter filterEquipment.value!!.contains(it.equipment)
+        }.filter {
+            it.name.contains(filterQuery, true)
         }
 
         RxBus.publish(RxEvent.FilterCount(exercises.value!!.size))
@@ -101,5 +110,11 @@ class ExerciseViewModel : ViewModel() {
         addEquipmentObserver.dispose()
         removeEquipmentObserver.dispose()
         clearFilterObserver.dispose()
+    }
+
+    fun search(text: String) {
+        filterQuery = text
+
+        filter()
     }
 }
