@@ -5,7 +5,6 @@ import android.view.View
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -33,7 +32,7 @@ class MainActivity : AppCompatActivity() {
                         R.id.navigation_profile,
                         R.id.navigation_nutrition,
                         R.id.navigation_workout,
-                        R.id.navigation_exercise,
+                        R.id.exerciseFragment,
                         R.id.navigation_settings
                     )
                 )
