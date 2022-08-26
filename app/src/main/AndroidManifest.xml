@@ -16,7 +16,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FitoryxNative"
         tools:targetApi="31">
-
+        <activity
+            android:name=".ui.exercise.custom.CustomExerciseActivity"
+            android:parentActivityName=".MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.exercise.detail.ExerciseDetailActivity"
+            android:parentActivityName=".MainActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.exercise.filter.ExerciseFilterActivity"
             android:exported="false"
@@ -24,12 +31,11 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:launchMode="singleTop">
-        </activity>
+            android:launchMode="singleTop" />
         <activity
             android:name=".AuthenticationActivity"
-            android:launchMode="singleTop"
-            android:exported="true" >
+            android:exported="true"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

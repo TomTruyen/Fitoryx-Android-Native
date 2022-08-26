@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.tomtruyen.Fitoryx.R
@@ -12,7 +13,10 @@ import com.tomtruyen.Fitoryx.model.Exercise
 const val TYPE_DIVIDER = 0
 const val TYPE_EXERCISE = 1
 
-class ExerciseAdapter(var exercises: List<Exercise>): RecyclerView.Adapter<ExerciseAdapter.BaseViewHolder>() {
+class ExerciseAdapter(
+    var exercises: List<Exercise>,
+    private val onClick: (Exercise) -> Unit
+): RecyclerView.Adapter<ExerciseAdapter.BaseViewHolder>() {
     @SuppressLint("NotifyDataSetChanged")
     fun updateExercises(exercises: List<Exercise>) {
         this.exercises = exercises
@@ -20,10 +24,12 @@ class ExerciseAdapter(var exercises: List<Exercise>): RecyclerView.Adapter<Exerc
     }
 
     open inner class BaseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val exerciseLayout: LinearLayout
         val titleTextView: TextView
         val subtitleTextView: TextView
 
         init {
+            exerciseLayout = itemView.findViewById(R.id.exercise_item_layout)
             titleTextView = itemView.findViewById(R.id.title)
             subtitleTextView = itemView.findViewById(R.id.subtitle)
         }
@@ -56,6 +62,8 @@ class ExerciseAdapter(var exercises: List<Exercise>): RecyclerView.Adapter<Exerc
         if(holder is DividerViewHolder) {
             holder.dividerTitleTextView.text = exercise.name.first().toString().uppercase()
         }
+
+        holder.exerciseLayout.setOnClickListener { onClick(exercise) }
     }
 
     override fun getItemViewType(position: Int): Int {

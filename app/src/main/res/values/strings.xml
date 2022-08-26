@@ -34,5 +34,9 @@
     <string name="error_title">Error</string>
     <string name="error_password_length">Password must be at least 6 characters</string>
     <string name="close">Close</string>
-    <string name="search_exercises">Search exercises...</string>
+    <string name="search_exercises">Search exercises…</string>
+    <string name="title_filter">Filter</string>
+    <string name="title_custom_exercise_add">Create exercise</string>
+    <string name="title_exercise_detail">Exercise detail</string>
+    <string name="title_custom_exercise_edit">Edit exercise</string>
 </resources>

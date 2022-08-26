@@ -1,6 +1,8 @@
 package com.tomtruyen.Fitoryx.di
 
 import com.tomtruyen.Fitoryx.ui.exercise.ExerciseViewModel
+import com.tomtruyen.Fitoryx.ui.exercise.custom.CustomExerciseViewModel
+import com.tomtruyen.Fitoryx.ui.exercise.detail.ExerciseDetailViewModel
 import com.tomtruyen.Fitoryx.ui.exercise.filter.ExerciseFilterViewModel
 import com.tomtruyen.Fitoryx.ui.nutrition.NutritionViewModel
 import com.tomtruyen.Fitoryx.ui.profile.ProfileViewModel
@@ -19,4 +21,6 @@ val applicationModules = module {
     viewModel { ExerciseViewModel() }
     viewModel { SettingsViewModel() }
     viewModel { ExerciseFilterViewModel() }
+    viewModel { ExerciseDetailViewModel() }
+    viewModel { CustomExerciseViewModel() }
 }

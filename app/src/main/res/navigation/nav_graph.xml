@@ -15,7 +15,17 @@
         android:id="@+id/navigation_exercise"
         android:name="com.tomtruyen.Fitoryx.ui.exercise.ExerciseFragment"
         android:label="@string/title_exercise"
-        tools:layout="@layout/fragment_exercise" />
+        tools:layout="@layout/fragment_exercise" >
+        <action
+            android:id="@+id/action_exercises_to_filter"
+            app:destination="@id/exerciseFilterActivity" />
+        <action
+            android:id="@+id/action_exercises_to_custom"
+            app:destination="@id/customExerciseActivity" />
+        <action
+            android:id="@+id/action_exercises_to_detail"
+            app:destination="@id/exerciseDetailActivity" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_nutrition"
@@ -32,4 +42,19 @@
         android:name="com.tomtruyen.Fitoryx.ui.settings.SettingsFragment"
         android:label="@string/title_settings"
         tools:layout="@layout/fragment_settings" />
+    <activity
+        android:id="@+id/exerciseFilterActivity"
+        android:name="com.tomtruyen.Fitoryx.ui.exercise.filter.ExerciseFilterActivity"
+        android:label="@string/title_filter"
+        tools:layout="@layout/activity_exercise_filter" />
+    <activity
+        android:id="@+id/customExerciseActivity"
+        android:name="com.tomtruyen.Fitoryx.ui.exercise.custom.CustomExerciseActivity"
+        android:label="@string/title_custom_exercise_add"
+        tools:layout="@layout/activity_custom_exercise" />
+    <activity
+        android:id="@+id/exerciseDetailActivity"
+        android:name="com.tomtruyen.Fitoryx.ui.exercise.detail.ExerciseDetailActivity"
+        android:label="@string/title_exercise_detail"
+        tools:layout="@layout/activity_exercise_detail" />
 </navigation>

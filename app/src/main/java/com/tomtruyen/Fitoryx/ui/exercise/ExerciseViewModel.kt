@@ -52,12 +52,6 @@ class ExerciseViewModel : ViewModel() {
     fun getEquipmentFilters(): List<String> = filterEquipment.value ?: emptyList()
 
     private fun filter() {
-        exercises.value = _exercises
-
-        if(filterQuery.isEmpty() && filterCategories.value.isNullOrEmpty() && filterEquipment.value.isNullOrEmpty()) {
-            return
-        }
-
         exercises.value = _exercises.filter categoryFilter@ {
             if(filterCategories.value.isNullOrEmpty()) return@categoryFilter true
             return@categoryFilter filterCategories.value!!.contains(it.category)

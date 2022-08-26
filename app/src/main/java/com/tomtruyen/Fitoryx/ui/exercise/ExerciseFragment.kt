@@ -14,6 +14,8 @@ import androidx.core.view.MenuProvider
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.factor.bouncy.BouncyNestedScrollView
@@ -23,6 +25,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import com.tomtruyen.Fitoryx.MainActivity
 import com.tomtruyen.Fitoryx.R
+import com.tomtruyen.Fitoryx.ui.exercise.custom.CustomExerciseActivity
+import com.tomtruyen.Fitoryx.ui.exercise.detail.ExerciseDetailActivity
 import com.tomtruyen.Fitoryx.ui.exercise.filter.ExerciseFilterActivity
 import com.tomtruyen.Fitoryx.utils.Utils
 import com.tomtruyen.Fitoryx.utils.setActionBarElevationOnScroll
@@ -55,7 +59,9 @@ class ExerciseFragment : Fragment() {
         }
 
         view.findViewById<FloatingActionButton>(R.id.add_exercise_fab).setOnClickListener {
-            Toast.makeText(context, "Add exercise click!", Toast.LENGTH_SHORT).show()
+            findNavController().navigate(R.id.action_exercises_to_custom, Bundle().apply {
+                putBoolean(CustomExerciseActivity.ARG_IS_NEW_EXERCISE, true)
+            })
         }
     }
 
@@ -97,7 +103,11 @@ class ExerciseFragment : Fragment() {
     }
 
     private fun setRecyclerView() {
-        adapter = ExerciseAdapter(viewModel.exercises.value!!)
+        adapter = ExerciseAdapter(viewModel.exercises.value!!) {
+            findNavController().navigate(R.id.action_exercises_to_detail, Bundle().apply {
+                putSerializable(ExerciseDetailActivity.ARG_EXERCISE, it)
+            })
+        }
         view?.let {
             it.findViewById<BouncyRecyclerView>(R.id.exercise_recycler_view).apply {
                 layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
@@ -109,13 +119,11 @@ class ExerciseFragment : Fragment() {
     }
 
     private fun openFilterActivity() {
-        val intent = Intent(context, ExerciseFilterActivity::class.java)
-
-        intent.putExtra(ExerciseFilterActivity.ARG_COUNT, viewModel.getExerciseCount())
-        intent.putStringArrayListExtra(ExerciseFilterActivity.ARG_FILTER_CATEGORIES, ArrayList(viewModel.getCategoryFilters()))
-        intent.putStringArrayListExtra(ExerciseFilterActivity.ARG_FILTER_EQUIPMENTS, ArrayList(viewModel.getEquipmentFilters()))
-
-        startActivity(intent)
+        findNavController().navigate(R.id.action_exercises_to_filter, Bundle().apply {
+            putInt(ExerciseFilterActivity.ARG_COUNT, viewModel.getExerciseCount())
+            putStringArrayList(ExerciseFilterActivity.ARG_FILTER_CATEGORIES, ArrayList(viewModel.getCategoryFilters()))
+            putStringArrayList(ExerciseFilterActivity.ARG_FILTER_EQUIPMENTS, ArrayList(viewModel.getEquipmentFilters()))
+        })
     }
 
     private fun showSearchField() {
