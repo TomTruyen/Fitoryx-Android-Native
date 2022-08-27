@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.tomtruyen.Fitoryx.MainActivity
 import com.tomtruyen.Fitoryx.R
+import java.util.*
 
 object Utils {
     fun getSupportActionBar(activity: FragmentActivity): ActionBar? {
@@ -20,5 +21,9 @@ object Utils {
                 dialog.dismiss()
             }
             .show()
+    }
+
+    fun generateUUID(): String {
+        return UUID.randomUUID().toString()
     }
 }

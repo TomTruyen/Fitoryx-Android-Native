@@ -9,6 +9,7 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.core.widget.addTextChangedListener
@@ -40,6 +41,8 @@ class ExerciseFragment : Fragment() {
     private lateinit var adapter: ExerciseAdapter
     private lateinit var optionsMenu: Menu
 
+    private lateinit var customExerciseLauncher: ActivityResultLauncher<Intent>
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -58,9 +61,23 @@ class ExerciseFragment : Fragment() {
             adapter.updateExercises(it)
         }
 
+        customExerciseLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                Snackbar.make(
+                    requireContext(),
+                    view.findViewById(R.id.exercise_fragment_container),
+                    getString(R.string.message_exercise_saved),
+                    Snackbar.LENGTH_SHORT
+                ).apply {
+                    setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.success))
+                    setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+                }.show()
+            }
+        }
+
         view.findViewById<FloatingActionButton>(R.id.add_exercise_fab).setOnClickListener {
-            findNavController().navigate(R.id.action_exercises_to_custom, Bundle().apply {
-                putBoolean(CustomExerciseActivity.ARG_IS_NEW_EXERCISE, true)
+            customExerciseLauncher.launch(Intent(requireContext(), CustomExerciseActivity::class.java).apply {
+                putExtra(CustomExerciseActivity.ARG_IS_NEW_EXERCISE, true)
             })
         }
     }

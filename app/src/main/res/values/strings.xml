@@ -33,6 +33,10 @@
     <string name="error_password_required">Password is required</string>
     <string name="error_title">Error</string>
     <string name="error_password_length">Password must be at least 6 characters</string>
+    <string name="error_exercise_name_empty">Exercise name is required</string>
+    <string name="error_save_exercise">Failed to save exercise</string>
+
+
     <string name="close">Close</string>
     <string name="search_exercises">Search exercises…</string>
     <string name="title_filter">Filter</string>
@@ -41,4 +45,8 @@
     <string name="title_custom_exercise_edit">Edit exercise</string>
     <string name="exercise_name">Exercise name</string>
     <string name="none">None</string>
+    <string name="save">Save</string>
+    <string name="add_exercise">Add exercise</string>
+    <string name="message_exercise_saved">Exercise saved!</string>
+    <string name="saving">Saving…</string>
 </resources>

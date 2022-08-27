@@ -1,64 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="@dimen/padding_default"
     tools:context=".ui.exercise.custom.CustomExerciseActivity">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/name_text_input_layout"
+    <LinearLayout
+        android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="8dp"
-        app:hintEnabled="true"
-        >
-        <com.google.android.material.textfield.TextInputEditText
+        android:padding="@dimen/padding_default"
+        android:orientation="vertical">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/name_text_input_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:imeOptions="actionDone"
-            android:hint="@string/exercise_name"
-            android:singleLine="true"
-            android:inputType="text"
-            />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginVertical="8dp"
+            app:hintEnabled="true">
 
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/DropdownMenu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="8dp"
-        android:hint="@string/category">
-        <AutoCompleteTextView
-            android:id="@+id/category_auto_complete_text_view"
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/exercise_name"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:singleLine="true" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/DropdownMenu"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:inputType="none"
-            android:text="@string/none"
-            app:simpleItems="@array/categories"
-            app:simpleItemLayout="@layout/dropdown_item"
-            tools:ignore="LabelFor" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp"
+            android:hint="@string/category">
 
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/DropdownMenu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="8dp"
-        android:hint="@string/equipment">
-        <AutoCompleteTextView
-            android:id="@+id/equipment_auto_complete_text_view"
+            <AutoCompleteTextView
+                android:id="@+id/category_auto_complete_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:inputType="none"
+                android:text="@string/none"
+                app:simpleItemLayout="@layout/dropdown_item"
+                app:simpleItems="@array/categories"
+                tools:ignore="LabelFor" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/DropdownMenu"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:inputType="none"
-            android:text="@string/none"
-            app:simpleItems="@array/equipment"
-            app:simpleItemLayout="@layout/dropdown_item"
-            tools:ignore="LabelFor" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp"
+            android:hint="@string/equipment">
 
-</LinearLayout>
+            <AutoCompleteTextView
+                android:id="@+id/equipment_auto_complete_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:inputType="none"
+                android:text="@string/none"
+                app:simpleItemLayout="@layout/dropdown_item"
+                app:simpleItems="@array/equipment"
+                tools:ignore="LabelFor" />
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
+
+    <include
+        android:id="@+id/saving_indicator"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        layout="@layout/saving_indicator"
+        />
+
+   <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/save_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_check"
+        android:contentDescription="@string/save"
+        android:layout_marginBottom="@dimen/padding_default"
+        android:layout_marginEnd="@dimen/padding_default"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+    />
+</RelativeLayout>

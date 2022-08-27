@@ -24,5 +24,7 @@
         <item name="bottomNavigationStyle">@style/BottomAppBar</item>
         <!-- ChipGroup (Chip) -->
         <item name="chipStyle">@style/Chip</item>
+        <!-- FloatingActionButton -->
+        <item name="floatingActionButtonStyle">@style/FloatingActionButton</item>
     </style>
 </resources>

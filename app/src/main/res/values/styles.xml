@@ -12,6 +12,11 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
+    <style name="FloatingActionButton" parent="Widget.Material3.FloatingActionButton.Primary">
+        <item name="tint">@color/blue_50</item>
+        <item name="backgroundTint">@color/blue_400</item>
+    </style>
+
     <style name="TextInputLayout" parent="Widget.Material3.TextInputLayout.FilledBox">
         <item name="boxBackgroundColor">@color/text_input_grey</item>
         <item name="boxCornerRadiusBottomEnd">@dimen/radius_normal</item>
