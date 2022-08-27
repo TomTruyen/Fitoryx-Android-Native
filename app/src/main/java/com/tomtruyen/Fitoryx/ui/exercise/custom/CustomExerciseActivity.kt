@@ -86,12 +86,14 @@ class CustomExerciseActivity : AppCompatActivity() {
     }
 
     private fun showSaving() {
+        supportActionBar?.hide()
         saveButton.visibility = View.GONE
         findViewById<LinearLayout>(R.id.content).visibility = View.GONE
         findViewById<View>(R.id.saving_indicator).visibility = View.VISIBLE
     }
 
     private fun hideSaving() {
+        supportActionBar?.show()
         saveButton.visibility = View.VISIBLE
         findViewById<LinearLayout>(R.id.content).visibility = View.VISIBLE
         findViewById<View>(R.id.saving_indicator).visibility = View.GONE
