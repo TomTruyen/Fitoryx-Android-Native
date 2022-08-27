@@ -7,4 +7,7 @@
     <dimen name="text_input_edit_text_with_hint_padding">16dp</dimen>
     <dimen name="padding_default">16dp</dimen>
     <dimen name="m3_bottom_navigation_min_height">80dp</dimen>
+
+
 </resources>
+

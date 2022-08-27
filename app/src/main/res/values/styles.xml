@@ -21,6 +21,22 @@
         <item name="boxStrokeWidth">0dp</item>
         <item name="boxStrokeWidthFocused">0dp</item>
         <item name="hintEnabled">false</item>
+        <item name="android:textColorHint">@color/hint_color</item>
+    </style>
+
+    <style name="DropdownMenu" parent="Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu">
+        <item name="boxBackgroundColor">@color/text_input_grey</item>
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
+        <item name="hintEnabled">true</item>
+        <item name="android:textColorHint">@color/hint_color</item>
+        <item name="materialThemeOverlay">@style/DropdownMenu.Overlay</item>
+    </style>
+
+    <style name="DropdownMenu.Overlay" parent="ThemeOverlay.Material3.AutoCompleteTextView">
+        <item name="colorSurface">@color/text_input_grey</item>
+        <item name="elevationOverlayEnabled">false</item>
+        <item name="autoCompleteTextViewStyle">@style/Widget.Material3.TextInputEditText.FilledBox</item>
     </style>
 
     <style name="ButtonStyle" parent="Widget.Material3.Button">

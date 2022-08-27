@@ -54,11 +54,16 @@ class ExerciseViewModel : ViewModel() {
     private fun filter() {
         exercises.value = _exercises.filter categoryFilter@ {
             if(filterCategories.value.isNullOrEmpty()) return@categoryFilter true
+
+            if(it.category.isEmpty() && filterCategories.value!!.contains("None")) {
+                return@categoryFilter true
+            }
+
             return@categoryFilter filterCategories.value!!.contains(it.category)
         }.filter equipmentFilter@ {
             if(filterEquipment.value.isNullOrEmpty()) return@equipmentFilter true
 
-            if(it.equipment.isEmpty() && filterEquipment.value!!.contains("Bodyweight")) {
+            if(it.equipment.isEmpty() && filterEquipment.value!!.contains("None")) {
                 return@equipmentFilter true
             }
 

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="categories">
+        <item>None</item>
         <item>Back</item>
         <item>Biceps</item>
         <item>Calves</item>
@@ -18,9 +19,9 @@
     </string-array>
 
     <string-array name="equipment">
+        <item>None</item>
         <item>Band</item>
         <item>Barbell</item>
-        <item>Bodyweight</item>
         <item>Cable</item>
         <item>Dumbbell</item>
         <item>EZ Bar</item>
