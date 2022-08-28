@@ -2,9 +2,11 @@ package com.tomtruyen.Fitoryx.ui.exercise
 
 import android.app.ActionBar
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import android.view.inputmethod.InputMethodManager
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
@@ -42,6 +44,7 @@ class ExerciseFragment : Fragment() {
     private lateinit var optionsMenu: Menu
 
     private lateinit var customExerciseLauncher: ActivityResultLauncher<Intent>
+    private lateinit var inputManager: InputMethodManager
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,6 +63,8 @@ class ExerciseFragment : Fragment() {
         viewModel.exercises.observe(viewLifecycleOwner) {
             adapter.updateExercises(it)
         }
+
+        inputManager = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
         customExerciseLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
@@ -159,11 +164,14 @@ class ExerciseFragment : Fragment() {
                     searchInputLayout.editText?.text?.clear()
                 }
 
-                searchInputLayout.editText?.addTextChangedListener { text ->
-                    viewModel.search(text.toString())
-                }
+                searchInputLayout.editText?.let { editText ->
+                    editText.requestFocus()
+                    inputManager.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
 
-                searchInputLayout.editText?.requestFocus()
+                    editText.addTextChangedListener { text ->
+                        viewModel.search(text.toString())
+                    }
+                }
             }
         }
     }
@@ -173,9 +181,13 @@ class ExerciseFragment : Fragment() {
     }
 
     private fun hideSearchField() {
-        Utils.getSupportActionBar(requireActivity())?.apply {
-            setDisplayShowCustomEnabled(false)
-            setDisplayHomeAsUpEnabled(false)
+        Utils.getSupportActionBar(requireActivity())?.also {
+            it.customView.findViewById<TextInputLayout>(R.id.search_input_layout)?.editText?.let { editText ->
+                inputManager.hideSoftInputFromWindow(editText.windowToken, 0)
+            }
+
+            it.setDisplayShowCustomEnabled(false)
+            it.setDisplayHomeAsUpEnabled(false)
         }.also {
             optionsMenu.findItem(R.id.action_search)?.isVisible = true
             isSearching = false
