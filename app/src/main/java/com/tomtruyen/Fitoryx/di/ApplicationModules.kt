@@ -23,6 +23,6 @@ val applicationModules = module {
     viewModel { ExerciseViewModel() }
     viewModel { SettingsViewModel() }
     viewModel { ExerciseFilterViewModel() }
-    viewModel { ExerciseDetailViewModel() }
+    viewModel { ExerciseDetailViewModel(firebaseService = get()) }
     viewModel { CustomExerciseViewModel(firebaseService = get()) }
 }

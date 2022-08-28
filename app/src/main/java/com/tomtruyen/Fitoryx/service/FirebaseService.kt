@@ -33,4 +33,12 @@ class FirebaseService {
                 put(EXERCISE_FIELD, FieldValue.arrayUnion(exercise))
             }, SetOptions.merge())
     }
+
+    fun deleteExercise(exercise: Exercise): Task<Void> {
+        return db.collection(USER_COLLECTION_NAME)
+            .document(AuthService.getCurrentUser()!!.uid)
+            .set(HashMap<String, FieldValue>().apply {
+                put(EXERCISE_FIELD, FieldValue.arrayRemove(exercise))
+            }, SetOptions.merge())
+    }
 }

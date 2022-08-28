@@ -19,6 +19,7 @@ import com.tomtruyen.Fitoryx.R
 import com.tomtruyen.Fitoryx.model.Exercise
 import com.tomtruyen.Fitoryx.model.utils.Result
 import com.tomtruyen.Fitoryx.service.CacheService
+import com.tomtruyen.Fitoryx.ui.exercise.ExerciseFragment
 import com.tomtruyen.Fitoryx.utils.Utils
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -81,7 +82,7 @@ class CustomExerciseActivity : AppCompatActivity() {
                 viewModel.saveExercise(exercise).addOnCompleteListener {  task ->
                     if(task.isSuccessful) {
                         CacheService.addExercise(exercise)
-                        setResult(Activity.RESULT_OK)
+                        setResult(ExerciseFragment.CUSTOM_EXERCISE_REQUEST_CODE)
                         finish()
                     } else {
                         hideSaving()

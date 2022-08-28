@@ -43,7 +43,7 @@ class ExerciseFragment : Fragment() {
     private lateinit var adapter: ExerciseAdapter
     private lateinit var optionsMenu: Menu
 
-    private lateinit var customExerciseLauncher: ActivityResultLauncher<Intent>
+    private lateinit var intentLauncher: ActivityResultLauncher<Intent>
     private lateinit var inputManager: InputMethodManager
 
     override fun onCreateView(
@@ -66,24 +66,18 @@ class ExerciseFragment : Fragment() {
 
         inputManager = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
-        customExerciseLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                viewModel.refreshExercises()
+        intentLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == CUSTOM_EXERCISE_REQUEST_CODE) {
+                handleCustomExerciseResult()
+            }
 
-                Snackbar.make(
-                    requireContext(),
-                    view.findViewById(R.id.exercise_fragment_container),
-                    getString(R.string.message_exercise_saved),
-                    Snackbar.LENGTH_SHORT
-                ).apply {
-                    setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.success))
-                    setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
-                }.show()
+            if(result.resultCode == DELETE_EXERCISE_REQUEST_CODE) {
+                handleExerciseDeleteResult()
             }
         }
 
         view.findViewById<FloatingActionButton>(R.id.add_exercise_fab).setOnClickListener {
-            customExerciseLauncher.launch(Intent(requireContext(), CustomExerciseActivity::class.java).apply {
+            intentLauncher.launch(Intent(requireContext(), CustomExerciseActivity::class.java).apply {
                 putExtra(CustomExerciseActivity.ARG_IS_NEW_EXERCISE, true)
             })
         }
@@ -128,8 +122,8 @@ class ExerciseFragment : Fragment() {
 
     private fun setRecyclerView() {
         adapter = ExerciseAdapter(viewModel.exercises.value!!) {
-            findNavController().navigate(R.id.action_exercises_to_detail, Bundle().apply {
-                putSerializable(ExerciseDetailActivity.ARG_EXERCISE, it)
+            intentLauncher.launch(Intent(requireContext(), ExerciseDetailActivity::class.java).apply {
+                putExtra(ExerciseDetailActivity.ARG_EXERCISE, it)
             })
         }
         view?.let {
@@ -192,5 +186,32 @@ class ExerciseFragment : Fragment() {
             optionsMenu.findItem(R.id.action_search)?.isVisible = true
             isSearching = false
         }
+    }
+
+    private fun showSnackbar(message: String) {
+        Snackbar.make(
+            requireContext(),
+            requireView().findViewById(R.id.exercise_fragment_container),
+            message,
+            Snackbar.LENGTH_SHORT
+        ).apply {
+            setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.success))
+            setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+        }.show()
+    }
+
+    private fun handleCustomExerciseResult() {
+        viewModel.refreshExercises()
+        showSnackbar(getString(R.string.message_exercise_saved))
+    }
+
+    private fun handleExerciseDeleteResult() {
+        viewModel.refreshExercises()
+        showSnackbar(getString(R.string.message_exercise_deleted))
+    }
+
+    companion object {
+        const val CUSTOM_EXERCISE_REQUEST_CODE = 1
+        const val DELETE_EXERCISE_REQUEST_CODE = 2
     }
 }
