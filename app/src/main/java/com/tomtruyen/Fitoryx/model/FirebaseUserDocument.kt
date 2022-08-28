@@ -4,5 +4,5 @@ import com.google.firebase.firestore.FieldValue
 import java.io.Serializable
 
 data class FirebaseUserDocument(
-    var exercises: FieldValue = FieldValue.arrayUnion()
+    var exercises: MutableList<Exercise> = mutableListOf()
 ): Serializable
