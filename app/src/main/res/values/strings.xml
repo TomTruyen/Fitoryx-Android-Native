@@ -49,4 +49,6 @@
     <string name="add_exercise">Add exercise</string>
     <string name="message_exercise_saved">Exercise saved!</string>
     <string name="saving">Saving…</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
 </resources>
