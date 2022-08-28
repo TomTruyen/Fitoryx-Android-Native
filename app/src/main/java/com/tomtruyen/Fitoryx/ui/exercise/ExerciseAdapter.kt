@@ -67,8 +67,8 @@ class ExerciseAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-        val currentLetter = exercises[position].name.first()
-        val previousLetter = if (position > 0) exercises[position - 1].name.first() else null
+        val currentLetter = exercises[position].name.first().lowercase()
+        val previousLetter = if (position > 0) exercises[position - 1].name.first().lowercase() else null
 
         return if(position == 0 || (previousLetter != null && currentLetter != previousLetter)) {
             TYPE_DIVIDER

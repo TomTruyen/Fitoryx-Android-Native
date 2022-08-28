@@ -63,6 +63,8 @@ class ExerciseFragment : Fragment() {
 
         customExerciseLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
+                viewModel.refreshExercises()
+
                 Snackbar.make(
                     requireContext(),
                     view.findViewById(R.id.exercise_fragment_container),
@@ -160,6 +162,8 @@ class ExerciseFragment : Fragment() {
                 searchInputLayout.editText?.addTextChangedListener { text ->
                     viewModel.search(text.toString())
                 }
+
+                searchInputLayout.editText?.requestFocus()
             }
         }
     }

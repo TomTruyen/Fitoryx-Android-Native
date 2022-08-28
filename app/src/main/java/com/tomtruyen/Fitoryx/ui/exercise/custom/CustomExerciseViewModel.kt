@@ -16,15 +16,7 @@ import kotlinx.coroutines.launch
 class CustomExerciseViewModel(
     private val firebaseService: FirebaseService,
 ): ViewModel() {
-    fun saveExercise(name: String, category: String, equipment: String): Task<Void> {
-        return firebaseService.saveExercise(
-            exercise = Exercise().apply {
-                this.id = Utils.generateUUID()
-                this.name = name
-                this.category = category
-                this.equipment = equipment
-                userCreated = true
-            }
-        )
+    fun saveExercise(exercise: Exercise): Task<Void> {
+        return firebaseService.saveExercise(exercise)
     }
 }

@@ -4,6 +4,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.tomtruyen.Fitoryx.event.RxBus
 import com.tomtruyen.Fitoryx.event.RxEvent
+import com.tomtruyen.Fitoryx.model.Exercise
+import com.tomtruyen.Fitoryx.service.CacheService
 import io.reactivex.rxjava3.disposables.Disposable
 import com.tomtruyen.Fitoryx.data.exercises as defaultExercises
 
@@ -15,15 +17,17 @@ class ExerciseViewModel : ViewModel() {
     private var removeEquipmentObserver: Disposable
     private var clearFilterObserver: Disposable
 
-    private val _exercises = defaultExercises
+    private var _exercises: List<Exercise> = emptyList()
 
-    val exercises = MutableLiveData(_exercises)
+    val exercises = MutableLiveData(_exercises.sortedBy { it.name.lowercase() })
 
     private var filterQuery = ""
     private val filterCategories = MutableLiveData<List<String>>(emptyList())
     private val filterEquipment = MutableLiveData<List<String>>(emptyList())
 
     init {
+        refreshExercises()
+
         addCategoryObserver = RxBus.listen(RxEvent.AddCategoryFilter::class.java).subscribe {
             addCategoryFilter(it.category)
         }
@@ -70,7 +74,7 @@ class ExerciseViewModel : ViewModel() {
             return@equipmentFilter filterEquipment.value!!.contains(it.equipment)
         }.filter {
             it.name.contains(filterQuery, true)
-        }
+        }.sortedBy { it.name.lowercase() }
 
         RxBus.publish(RxEvent.FilterCount(exercises.value!!.size))
     }
@@ -101,6 +105,16 @@ class ExerciseViewModel : ViewModel() {
         filter()
     }
 
+    fun refreshExercises() {
+        _exercises = defaultExercises + CacheService.getExercises()
+        filter()
+    }
+
+    fun search(text: String) {
+        filterQuery = text
+        filter()
+    }
+
     override fun onCleared() {
         super.onCleared()
 
@@ -109,11 +123,5 @@ class ExerciseViewModel : ViewModel() {
         addEquipmentObserver.dispose()
         removeEquipmentObserver.dispose()
         clearFilterObserver.dispose()
-    }
-
-    fun search(text: String) {
-        filterQuery = text
-
-        filter()
     }
 }

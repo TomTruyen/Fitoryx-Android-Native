@@ -16,7 +16,9 @@ import com.google.android.material.progressindicator.IndeterminateDrawable
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import com.tomtruyen.Fitoryx.R
+import com.tomtruyen.Fitoryx.model.Exercise
 import com.tomtruyen.Fitoryx.model.utils.Result
+import com.tomtruyen.Fitoryx.service.CacheService
 import com.tomtruyen.Fitoryx.utils.Utils
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -45,7 +47,7 @@ class CustomExerciseActivity : AppCompatActivity() {
             }
         }
 
-        saveButton = findViewById<FloatingActionButton>(R.id.save_fab)
+        saveButton = findViewById(R.id.save_fab)
         saveButton.setOnClickListener {
             saveExercise()
         }
@@ -68,12 +70,17 @@ class CustomExerciseActivity : AppCompatActivity() {
             showSaving()
 
             lifecycleScope.launch {
-                viewModel.saveExercise(
-                    name = name,
-                    category = category,
-                    equipment = equipment
-                ).addOnCompleteListener {  task ->
+                val exercise =  Exercise().apply {
+                    this.id = Utils.generateUUID()
+                    this.name = name
+                    this.category = category
+                    this.equipment = equipment
+                    userCreated = true
+                }
+
+                viewModel.saveExercise(exercise).addOnCompleteListener {  task ->
                     if(task.isSuccessful) {
+                        CacheService.addExercise(exercise)
                         setResult(Activity.RESULT_OK)
                         finish()
                     } else {
@@ -86,14 +93,16 @@ class CustomExerciseActivity : AppCompatActivity() {
     }
 
     private fun showSaving() {
-        supportActionBar?.hide()
+        supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
         saveButton.visibility = View.GONE
         findViewById<LinearLayout>(R.id.content).visibility = View.GONE
         findViewById<View>(R.id.saving_indicator).visibility = View.VISIBLE
     }
 
     private fun hideSaving() {
-        supportActionBar?.show()
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowTitleEnabled(true)
         saveButton.visibility = View.VISIBLE
         findViewById<LinearLayout>(R.id.content).visibility = View.VISIBLE
         findViewById<View>(R.id.saving_indicator).visibility = View.GONE
