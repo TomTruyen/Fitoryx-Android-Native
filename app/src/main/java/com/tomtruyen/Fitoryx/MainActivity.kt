@@ -11,11 +11,18 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.firestore.ktx.toObject
 import com.tomtruyen.Fitoryx.helper.ConnectivityObserver
+import com.tomtruyen.Fitoryx.model.FirebaseUserDocument
+import com.tomtruyen.Fitoryx.service.CacheService
+import com.tomtruyen.Fitoryx.service.FirebaseService
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {
+    private val firebaseService: FirebaseService by inject()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -37,6 +44,16 @@ class MainActivity : AppCompatActivity() {
                     )
                 )
             )
+        }
+
+        if(CacheService.getFirebaseUserDocument() == null) {
+            firebaseService.initialize().addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    task.result.toObject(FirebaseUserDocument::class.java)?.let {
+                        CacheService.setFirebaseUserDocument(it)
+                    }
+                }
+            }
         }
 
         observeConnectionStatus(navView)
