@@ -56,7 +56,7 @@ class ExerciseAdapter(
     override fun onBindViewHolder(holder: ExerciseAdapter.BaseViewHolder, position: Int) {
         val exercise = exercises[position]
 
-        holder.titleTextView.text = exercise.getTitle()
+        holder.titleTextView.text = exercise.getDisplayTitle()
         holder.subtitleTextView.text = exercise.getSubtitle()
 
         if(holder is DividerViewHolder) {

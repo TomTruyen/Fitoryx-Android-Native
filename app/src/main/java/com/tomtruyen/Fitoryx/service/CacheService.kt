@@ -18,9 +18,20 @@ object CacheService {
         firebaseUserDocument?.exercises?.add(exercise)
     }
 
+    fun editExercise(exercise: Exercise) {
+        firebaseUserDocument?.exercises?.find {
+            it.id == exercise.id
+        }?.let {
+            it.name = exercise.name
+            it.equipment = exercise.equipment
+            it.category = exercise.category
+        }
+    }
+
     fun deleteExercise(exercise: Exercise) {
         firebaseUserDocument?.exercises?.remove(exercise)
     }
 
     fun getExercises() = firebaseUserDocument?.exercises ?: emptyList()
+
 }

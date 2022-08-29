@@ -8,6 +8,7 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.squareup.okhttp.Cache
 import com.tomtruyen.Fitoryx.R
 import com.tomtruyen.Fitoryx.model.Exercise
 import com.tomtruyen.Fitoryx.model.FirebaseUserDocument
@@ -27,11 +28,29 @@ class FirebaseService {
     }
 
     fun saveExercise(exercise: Exercise): Task<Void> {
-        return db.collection(USER_COLLECTION_NAME)
-            .document(AuthService.getCurrentUser()!!.uid)
-            .set(HashMap<String, FieldValue>().apply {
-                put(EXERCISE_FIELD, FieldValue.arrayUnion(exercise))
-            }, SetOptions.merge())
+        val exercises = CacheService.getExercises()
+
+        val newExercise = exercises.firstOrNull { it.id == exercise.id } == null
+
+        if(newExercise) {
+            return db.collection(USER_COLLECTION_NAME)
+                .document(AuthService.getCurrentUser()!!.uid)
+                .set(HashMap<String, FieldValue>().apply {
+                    put(EXERCISE_FIELD, FieldValue.arrayUnion(exercise))
+                }, SetOptions.merge())
+        } else {
+            exercises.first { it.id == exercise.id }.let {
+                it.name = exercise.name
+                it.category = exercise.category
+                it.equipment = exercise.equipment
+            }
+
+            return db.collection(USER_COLLECTION_NAME)
+                .document(AuthService.getCurrentUser()!!.uid)
+                .set(HashMap<String, List<Exercise>>().apply {
+                    put(EXERCISE_FIELD, exercises)
+                }, SetOptions.merge())
+        }
     }
 
     fun deleteExercise(exercise: Exercise): Task<Void> {

@@ -71,6 +71,10 @@ class ExerciseFragment : Fragment() {
                 handleCustomExerciseResult()
             }
 
+            if(result.resultCode == EDIT_EXERCISE_RESULT_CODE) {
+                handleEditExerciseResult()
+            }
+
             if(result.resultCode == DELETE_EXERCISE_REQUEST_CODE) {
                 handleExerciseDeleteResult()
             }
@@ -205,13 +209,19 @@ class ExerciseFragment : Fragment() {
         showSnackbar(getString(R.string.message_exercise_saved))
     }
 
+    private fun handleEditExerciseResult() {
+        viewModel.refreshExercises()
+    }
+
     private fun handleExerciseDeleteResult() {
         viewModel.refreshExercises()
         showSnackbar(getString(R.string.message_exercise_deleted))
     }
 
     companion object {
+        const val ARG_EDIT_EXERCISE = "edit_exercise"
         const val CUSTOM_EXERCISE_REQUEST_CODE = 1
         const val DELETE_EXERCISE_REQUEST_CODE = 2
+        const val EDIT_EXERCISE_RESULT_CODE = 3
     }
 }

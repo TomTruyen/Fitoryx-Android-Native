@@ -1,8 +1,10 @@
 package com.tomtruyen.Fitoryx.ui.exercise.custom
 
 import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
@@ -20,6 +22,7 @@ import com.tomtruyen.Fitoryx.model.Exercise
 import com.tomtruyen.Fitoryx.model.utils.Result
 import com.tomtruyen.Fitoryx.service.CacheService
 import com.tomtruyen.Fitoryx.ui.exercise.ExerciseFragment
+import com.tomtruyen.Fitoryx.ui.exercise.detail.ExerciseDetailActivity
 import com.tomtruyen.Fitoryx.utils.Utils
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -27,11 +30,13 @@ import org.koin.android.ext.android.inject
 
 class CustomExerciseActivity : AppCompatActivity() {
     companion object {
+        const val ARG_EXERCISE = "exercise"
         const val ARG_IS_NEW_EXERCISE = "is_new_exercise"
     }
 
     private val viewModel: CustomExerciseViewModel by inject()
 
+    private var isCreate: Boolean = true
     private lateinit var saveButton: FloatingActionButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,17 +45,32 @@ class CustomExerciseActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        intent.getBooleanExtra(ARG_IS_NEW_EXERCISE, true).let { isCreate ->
+        isCreate = intent.getBooleanExtra(ARG_IS_NEW_EXERCISE, true)
+        isCreate.let { isCreate ->
             supportActionBar?.title = if(isCreate) {
                 getString(R.string.title_custom_exercise_add)
             } else {
                 getString(R.string.title_custom_exercise_edit)
             }
+
+            if(!isCreate) {
+                viewModel.exercise = intent.getSerializableExtra(ARG_EXERCISE) as Exercise
+            }
         }
+
+        setExercise()
 
         saveButton = findViewById(R.id.save_fab)
         saveButton.setOnClickListener {
             saveExercise()
+        }
+    }
+
+    private fun setExercise() {
+        viewModel.exercise?.let {
+            findViewById<TextInputLayout>(R.id.name_text_input_layout).editText?.setText(viewModel.exercise!!.name)
+            findViewById<AutoCompleteTextView>(R.id.category_auto_complete_text_view).text = Editable.Factory.getInstance().newEditable(viewModel.exercise!!.category)
+            findViewById<AutoCompleteTextView>(R.id.equipment_auto_complete_text_view).text = Editable.Factory.getInstance().newEditable(viewModel.exercise!!.equipment)
         }
     }
 
@@ -71,18 +91,33 @@ class CustomExerciseActivity : AppCompatActivity() {
             showSaving()
 
             lifecycleScope.launch {
-                val exercise =  Exercise().apply {
-                    this.id = Utils.generateUUID()
-                    this.name = name
-                    this.category = category
-                    this.equipment = equipment
-                    userCreated = true
+                if(isCreate) {
+                    viewModel.exercise =  Exercise().apply {
+                        this.id = Utils.generateUUID()
+                        this.name = name
+                        this.category = category
+                        this.equipment = equipment
+                        userCreated = true
+                    }
+                } else {
+                    viewModel.exercise?.apply {
+                        this.name = name
+                        this.category = category
+                        this.equipment = equipment
+                    }
                 }
 
-                viewModel.saveExercise(exercise).addOnCompleteListener {  task ->
+                viewModel.saveExercise().addOnCompleteListener {  task ->
                     if(task.isSuccessful) {
-                        CacheService.addExercise(exercise)
-                        setResult(ExerciseFragment.CUSTOM_EXERCISE_REQUEST_CODE)
+                        if(isCreate) {
+                            CacheService.addExercise(viewModel.exercise!!)
+                            setResult(ExerciseFragment.CUSTOM_EXERCISE_REQUEST_CODE)
+                        } else {
+                            CacheService.editExercise(viewModel.exercise!!)
+                            setResult(ExerciseDetailActivity.EDIT_EXERCISE_REQUEST_CODE, Intent().apply {
+                                putExtra(ExerciseDetailActivity.ARG_EXERCISE, viewModel.exercise)
+                            })
+                        }
                         finish()
                     } else {
                         hideSaving()
