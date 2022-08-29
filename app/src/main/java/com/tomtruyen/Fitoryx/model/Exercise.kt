@@ -9,7 +9,7 @@ class Exercise(
     var equipment: String = "",
     var userCreated: Boolean = false,
 ): Serializable {
-    fun getTitle(): String {
+    fun getDisplayTitle(): String {
         return if(equipment.isNotEmpty() && equipment != "None") {
             "$name ($equipment)"
         } else {
