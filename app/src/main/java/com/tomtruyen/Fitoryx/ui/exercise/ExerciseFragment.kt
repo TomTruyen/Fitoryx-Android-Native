@@ -28,17 +28,21 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import com.tomtruyen.Fitoryx.MainActivity
 import com.tomtruyen.Fitoryx.R
+import com.tomtruyen.Fitoryx.model.Exercise
 import com.tomtruyen.Fitoryx.ui.exercise.custom.CustomExerciseActivity
 import com.tomtruyen.Fitoryx.ui.exercise.detail.ExerciseDetailActivity
 import com.tomtruyen.Fitoryx.ui.exercise.filter.ExerciseFilterActivity
+import com.tomtruyen.Fitoryx.ui.workout.custom.CustomWorkoutActivity
 import com.tomtruyen.Fitoryx.utils.Utils
 import com.tomtruyen.Fitoryx.utils.setActionBarElevationOnScroll
 import org.koin.android.ext.android.inject
+import java.io.Serializable
 
 class ExerciseFragment : Fragment() {
     val viewModel: ExerciseViewModel by inject()
 
     private var isSearching = false
+    private var isParentWorkout = false
 
     private lateinit var adapter: ExerciseAdapter
     private lateinit var optionsMenu: Menu
@@ -57,14 +61,59 @@ class ExerciseFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setActions()
-        setRecyclerView()
+        inputManager = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+
+        arguments?.getBoolean(ARG_PARENT_IS_WORKOUT)?.let { isParentWorkout ->
+            this.isParentWorkout = isParentWorkout
+
+            if(isParentWorkout) {
+                val workoutExercises = (arguments?.getSerializable(ARG_WORKOUT_EXERCISES) as ArrayList<*>)
+                    .filterIsInstance<Exercise>()
+
+                viewModel.exercises.value?.forEach { exercise ->
+                    exercise.selected = workoutExercises.contains(exercise)
+                }
+
+                adapter = ExerciseAdapter(viewModel.exercises.value!!) { exercise, position ->
+                    exercise.selected = !exercise.selected
+                    adapter.notifyItemChanged(position)
+                }
+
+                view.findViewById<FloatingActionButton>(R.id.add_exercise_fab)?.let { fab ->
+                    fab.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_check))
+                    fab.setOnClickListener {
+                        activity?.let { activity ->
+                            activity.setResult(CustomWorkoutActivity.REQUEST_CODE_EXERCISES, Intent().apply {
+                                putExtra(CustomWorkoutActivity.ARG_EXERCISES, adapter.exercises.filter { it.selected } as ArrayList<Exercise>)
+                            })
+                            activity.finish()
+                        }
+                    }
+                }
+
+            }
+        }
+
+        if(!isParentWorkout) {
+            adapter = ExerciseAdapter(viewModel.exercises.value!!) {  exercise, _ ->
+                intentLauncher.launch(Intent(requireContext(), ExerciseDetailActivity::class.java).apply {
+                    putExtra(ExerciseDetailActivity.ARG_EXERCISE, exercise)
+                })
+            }
+
+            view.findViewById<FloatingActionButton>(R.id.add_exercise_fab).setOnClickListener {
+                intentLauncher.launch(Intent(requireContext(), CustomExerciseActivity::class.java).apply {
+                    putExtra(CustomExerciseActivity.ARG_IS_NEW_EXERCISE, true)
+                })
+            }
+        }
 
         viewModel.exercises.observe(viewLifecycleOwner) {
             adapter.updateExercises(it)
         }
 
-        inputManager = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        setActions()
+        setRecyclerView()
 
         intentLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == CUSTOM_EXERCISE_REQUEST_CODE) {
@@ -78,12 +127,6 @@ class ExerciseFragment : Fragment() {
             if(result.resultCode == DELETE_EXERCISE_REQUEST_CODE) {
                 handleExerciseDeleteResult()
             }
-        }
-
-        view.findViewById<FloatingActionButton>(R.id.add_exercise_fab).setOnClickListener {
-            intentLauncher.launch(Intent(requireContext(), CustomExerciseActivity::class.java).apply {
-                putExtra(CustomExerciseActivity.ARG_IS_NEW_EXERCISE, true)
-            })
         }
     }
 
@@ -107,7 +150,14 @@ class ExerciseFragment : Fragment() {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when(menuItem.itemId) {
                     android.R.id.home -> {
-                        hideSearchField()
+                        if(isSearching) {
+                            hideSearchField()
+                        }
+
+                        if(isParentWorkout) {
+                            activity?.finish()
+                        }
+
                         true
                     }
                     R.id.action_filter -> {
@@ -125,11 +175,6 @@ class ExerciseFragment : Fragment() {
     }
 
     private fun setRecyclerView() {
-        adapter = ExerciseAdapter(viewModel.exercises.value!!) {
-            intentLauncher.launch(Intent(requireContext(), ExerciseDetailActivity::class.java).apply {
-                putExtra(ExerciseDetailActivity.ARG_EXERCISE, it)
-            })
-        }
         view?.let {
             it.findViewById<BouncyRecyclerView>(R.id.exercise_recycler_view).apply {
                 layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
@@ -180,7 +225,7 @@ class ExerciseFragment : Fragment() {
 
     private fun hideSearchField() {
         Utils.getSupportActionBar(requireActivity())?.also {
-            it.customView.findViewById<TextInputLayout>(R.id.search_input_layout)?.editText?.let { editText ->
+            it.customView?.findViewById<TextInputLayout>(R.id.search_input_layout)?.editText?.let { editText ->
                 inputManager.hideSoftInputFromWindow(editText.windowToken, 0)
             }
 
@@ -220,8 +265,17 @@ class ExerciseFragment : Fragment() {
 
     companion object {
         const val ARG_EDIT_EXERCISE = "edit_exercise"
+        const val ARG_PARENT_IS_WORKOUT = "parent_is_workout"
+        const val ARG_WORKOUT_EXERCISES = "workout_exercises"
         const val CUSTOM_EXERCISE_REQUEST_CODE = 1
         const val DELETE_EXERCISE_REQUEST_CODE = 2
         const val EDIT_EXERCISE_RESULT_CODE = 3
+
+        fun newInstance(exercises: List<Exercise> = emptyList(), parentIsWorkout: Boolean = false) = ExerciseFragment().apply {
+            arguments = Bundle().apply {
+                putSerializable(ARG_WORKOUT_EXERCISES, exercises as Serializable)
+                putBoolean(ARG_PARENT_IS_WORKOUT, parentIsWorkout)
+            }
+        }
     }
 }

@@ -26,4 +26,15 @@
 
     </com.factor.bouncy.BouncyNestedScrollView>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_create_workout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/padding_default"
+        android:layout_marginBottom="@dimen/padding_default"
+        android:src="@drawable/ic_add"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        />
+
 </RelativeLayout>

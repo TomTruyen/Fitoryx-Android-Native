@@ -1,5 +1,6 @@
 package com.tomtruyen.Fitoryx.model
 
+import com.google.firebase.firestore.Exclude
 import java.io.Serializable
 
 class Exercise(
@@ -8,6 +9,7 @@ class Exercise(
     var category: String = "",
     var equipment: String = "",
     var userCreated: Boolean = false,
+    @Exclude var selected: Boolean = false,
 ): Serializable {
     fun getDisplayTitle(): String {
         return if(equipment.isNotEmpty() && equipment != "None") {

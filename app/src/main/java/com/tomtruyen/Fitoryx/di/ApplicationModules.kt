@@ -9,6 +9,7 @@ import com.tomtruyen.Fitoryx.ui.nutrition.NutritionViewModel
 import com.tomtruyen.Fitoryx.ui.profile.ProfileViewModel
 import com.tomtruyen.Fitoryx.ui.settings.SettingsViewModel
 import com.tomtruyen.Fitoryx.ui.workout.WorkoutViewModel
+import com.tomtruyen.Fitoryx.ui.workout.custom.CustomWorkoutViewModel
 import com.tomtruyen.Fitoryx.utils.InputValidator
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -25,4 +26,5 @@ val applicationModules = module {
     viewModel { ExerciseFilterViewModel() }
     viewModel { ExerciseDetailViewModel(firebaseService = get()) }
     viewModel { CustomExerciseViewModel(firebaseService = get()) }
+    viewModel { CustomWorkoutViewModel(firebaseService = get()) }
 }

@@ -9,7 +9,8 @@
         android:id="@+id/navigation_workout"
         android:name="com.tomtruyen.Fitoryx.ui.workout.WorkoutFragment"
         android:label="@string/title_workout"
-        tools:layout="@layout/fragment_workout" />
+        tools:layout="@layout/fragment_workout" >
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_nutrition"
